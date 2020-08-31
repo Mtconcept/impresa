@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'core/theme/app_theme.dart';
+import 'core/themes/app_theme.dart';
 import 'views/screens/login_screen.dart';
 
 void main() {
