@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:impresa/controllers/login_controller.dart';
 
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
@@ -10,11 +12,11 @@ class LoginScreen extends StatelessWidget {
       child: Scaffold(
         body: SafeArea(
           child: Container(
-            padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 16.0),
+            padding: EdgeInsets.symmetric(horizontal: 32.0),
             child: SingleChildScrollView(
               child: Column(
                 children: [
-                  SizedBox(height: 40),
+                  SizedBox(height: 60),
                   formHeader,
                   SizedBox(height: 40),
                   formBody,
@@ -37,38 +39,46 @@ class LoginScreen extends StatelessWidget {
             'It’s great you are here your business life is about to go digitial',
       );
 
-  Widget get formBody => Form(
-        child: Column(
-          children: [
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Full Name',
+  Widget get formBody => GetBuilder<LoginController>(
+        init: LoginController(),
+        builder: (controller) => Form(
+          key: controller.formKey,
+          child: Column(
+            children: [
+              TextFormField(
+                validator: controller.validateFullName,
+                decoration: InputDecoration(
+                  hintText: 'Full Name',
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Email Address',
+              SizedBox(height: 20),
+              TextFormField(
+                validator: controller.validateEmail,
+                decoration: InputDecoration(
+                  hintText: 'Email Address',
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Phone Number',
+              SizedBox(height: 20),
+              TextFormField(
+                validator: controller.validatePhoneNumber,
+                decoration: InputDecoration(
+                  hintText: 'Phone Number',
+                ),
               ),
-            ),
-            SizedBox(height: 20),
-            TextField(
-              decoration: InputDecoration(
-                hintText: 'Password',
+              SizedBox(height: 20),
+              TextFormField(
+                validator: controller.validatePassword,
+                decoration: InputDecoration(
+                  hintText: 'Password',
+                ),
               ),
-            ),
-            SizedBox(height: 60),
-            RaisedButton(
-              child: Text('Sign Up'),
-              onPressed: () {},
-            )
-          ],
+              SizedBox(height: 60),
+              RaisedButton(
+                child: Text('Sign Up'),
+                onPressed: controller.validateForm,
+              )
+            ],
+          ),
         ),
       );
 
