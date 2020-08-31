@@ -4,6 +4,7 @@ import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
 
 class LoginScreen extends StatelessWidget {
+  bool pressed = true;
   @override
   Widget build(BuildContext context) {
     return WhiteSafeArea(
@@ -53,15 +54,20 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextField(
+              keyboardType: TextInputType.number,
               decoration: InputDecoration(
                 hintText: 'Phone Number',
               ),
             ),
             SizedBox(height: 20),
             TextField(
+              obscureText: pressed,
               decoration: InputDecoration(
-                hintText: 'Password',
-              ),
+                  hintText: 'Password',
+                  suffixIcon: IconButton(
+                      icon: Icon( pressed? Icons.remove_red_eye:Icons.remove_red_eye), onPressed: (){
+                      
+                      })),
             ),
             SizedBox(height: 60),
             RaisedButton(

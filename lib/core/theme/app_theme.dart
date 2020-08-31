@@ -49,11 +49,11 @@ class AppTheme {
         color: colorScheme.onBackground,
       ),
       bodyText1: TextStyle(
-        fontSize: 14,
+        fontSize: 16,
         color: colorScheme.onSurface,
       ),
       bodyText2: TextStyle(
-        fontSize: 12,
+        fontSize: 14,
         color: colorScheme.onSurface,
       ),
       button: TextStyle(
