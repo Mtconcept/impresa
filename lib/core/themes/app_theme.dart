@@ -32,7 +32,9 @@ class AppTheme {
   );
 
   /// TextStyles Usage
+  /// Headline4 - Primary Title i.e Impresa
   /// Headline5 - Form Title i.e Form Title
+  /// Subtitle1 - Primary Description i.e onboarding description
   /// Subtitle2 - Titles without real emphasis i.e Continue without login
   /// BodyText1 - Regular Texts i.e TextField hintText
   /// BodyText2 - Small Description i.e Form Title Description
@@ -40,9 +42,19 @@ class AppTheme {
 
   static TextTheme _textTheme(ColorScheme colorScheme) {
     return TextTheme(
+      headline4: TextStyle(
+        fontSize: 24,
+        fontWeight: FontWeight.bold,
+        color: colorScheme.primary,
+      ),
       headline5: TextStyle(
         fontSize: 24,
         color: colorScheme.onBackground,
+      ),
+      subtitle1: TextStyle(
+        fontSize: 14,
+        fontWeight: FontWeight.w300,
+        color: colorScheme.onPrimary,
       ),
       subtitle2: TextStyle(
         fontSize: 14,
@@ -78,7 +90,7 @@ class AppTheme {
 
   static InputDecorationTheme _inputDecorationTheme(TextTheme textTheme) {
     return InputDecorationTheme(
-      hintStyle: textTheme.bodyText1,
+      hintStyle: textTheme.subtitle2,
     );
   }
 
