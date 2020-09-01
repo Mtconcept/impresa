@@ -85,6 +85,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               description:
                   'With just your smartphone you can create your business identity, through our highly curated everly updated templates, very easy to use and concise in manner.',
               onNextPressed: controller.nextFunction,
+              currentIndex: controller.currentIndex,
               onSkipPressed: controller.register,
             )
           : OnboardingBottomSheet(
@@ -92,6 +93,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               description:
                   'Let people keep a memory of you as soon as possible with this digital business card no ned to hold bulky card in your pocket when you can share it over your device.',
               onNextPressed: controller.register,
+              currentIndex: controller.currentIndex,
               onSkipPressed: controller.register,
             );
 }

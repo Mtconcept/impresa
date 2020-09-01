@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:impresa/views/widgets/page_indicator.dart';
 
 class OnboardingBottomSheet extends StatelessWidget {
   final String title;
   final String description;
+  final int currentIndex;
   final Function onSkipPressed;
   final Function onNextPressed;
 
@@ -10,6 +12,7 @@ class OnboardingBottomSheet extends StatelessWidget {
     Key key,
     @required this.title,
     @required this.description,
+    @required this.currentIndex,
     @required this.onNextPressed,
     @required this.onSkipPressed,
   }) : super(key: key);
@@ -26,7 +29,7 @@ class OnboardingBottomSheet extends StatelessWidget {
         ),
       ),
       padding: EdgeInsets.only(
-        top: 60.0,
+        top: 24.0,
         left: 30.0,
         right: 30.0,
         bottom: 30.0,
@@ -35,6 +38,8 @@ class OnboardingBottomSheet extends StatelessWidget {
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          PageIndicator(currentIndex: currentIndex),
+          SizedBox(height: 30.0),
           Text(
             title,
             style: Theme.of(context).textTheme.headline4.copyWith(
