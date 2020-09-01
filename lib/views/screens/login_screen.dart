@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/register_controller.dart';
+import '../../controllers/login_controller.dart';
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
 
-class RegisterScreen extends StatelessWidget {
+class LoginScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhiteSafeArea(
       child: Scaffold(
         body: SafeArea(
-          child: GetBuilder<RegisterController>(
-            init: RegisterController(),
+          child: GetBuilder<LoginController>(
+            init: LoginController(),
             builder: (controller) => Container(
               padding: EdgeInsets.symmetric(horizontal: 32.0),
               child: SingleChildScrollView(
@@ -39,34 +39,19 @@ class RegisterScreen extends StatelessWidget {
   Widget get formHeader => Hero(
         tag: 'header',
         child: FormHeader(
-          title: 'Get Started',
-          description:
-              'It’s great you are here your business life is about to go digitial',
+          title: 'Login',
+          description: 'Yoo! Glad to have you back lets continue the journey',
         ),
       );
 
-  Widget formBody(RegisterController controller) => Form(
+  Widget formBody(LoginController controller) => Form(
         key: controller.formKey,
         child: Column(
           children: [
             TextFormField(
-              validator: controller.validateFullName,
-              decoration: InputDecoration(
-                hintText: 'Full Name',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
               validator: controller.validateEmail,
               decoration: InputDecoration(
                 hintText: 'Email Address',
-              ),
-            ),
-            SizedBox(height: 20),
-            TextFormField(
-              validator: controller.validatePhoneNumber,
-              decoration: InputDecoration(
-                hintText: 'Phone Number',
               ),
             ),
             SizedBox(height: 20),
@@ -80,7 +65,7 @@ class RegisterScreen extends StatelessWidget {
             Hero(
               tag: 'button',
               child: RaisedButton(
-                child: Text('Sign Up'),
+                child: Text('Sign In'),
                 onPressed: controller.validateForm,
               ),
             ),
@@ -88,15 +73,15 @@ class RegisterScreen extends StatelessWidget {
         ),
       );
 
-  Widget haveAnAccount(BuildContext context, RegisterController controller) =>
+  Widget haveAnAccount(BuildContext context, LoginController controller) =>
       RichText(
         text: TextSpan(
-          text: 'Already have an account',
+          text: 'Don\'t have an account',
           style: Theme.of(context).textTheme.subtitle2,
           children: <TextSpan>[
             TextSpan(
-              text: ' Login',
-              recognizer: controller.login,
+              recognizer: controller.register,
+              text: ' Create Account',
               style: Theme.of(context).textTheme.subtitle2.copyWith(
                     fontWeight: FontWeight.bold,
                   ),

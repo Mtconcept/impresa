@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../core/utils/validation_mixin.dart';
-import '../views/screens/login_screen.dart';
+import '../views/screens/register_screen.dart';
 
-class RegisterController extends GetxController with ValidationMixin {
+class LoginController extends GetxController with ValidationMixin {
   final formKey = GlobalKey<FormState>();
-  TapGestureRecognizer login;
+  TapGestureRecognizer register;
 
   @override
   void onInit() {
-    login = TapGestureRecognizer()
+    register = TapGestureRecognizer()
       ..onTap = () {
-        Get.off(LoginScreen());
+        Get.off(RegisterScreen());
       };
     super.onInit();
   }
