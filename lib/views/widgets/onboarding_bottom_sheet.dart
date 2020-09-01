@@ -49,7 +49,9 @@ class OnboardingBottomSheet extends StatelessWidget {
           SizedBox(height: 15.0),
           Text(
             description,
-            style: Theme.of(context).textTheme.subtitle1,
+            style: Theme.of(context).textTheme.subtitle1.copyWith(
+                  color: Theme.of(context).colorScheme.onPrimary,
+                ),
           ),
           SizedBox(height: 50.0),
           Row(

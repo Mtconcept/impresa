@@ -54,7 +54,7 @@ class AppTheme {
       subtitle1: TextStyle(
         fontSize: 14,
         fontWeight: FontWeight.w300,
-        color: colorScheme.onPrimary,
+        color: colorScheme.onBackground,
       ),
       subtitle2: TextStyle(
         fontSize: 14,
