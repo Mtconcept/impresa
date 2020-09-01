@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:impresa/controllers/login_controller.dart';
 
+import '../../controllers/register_controller.dart';
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
 
-class LoginScreen extends StatelessWidget {
+class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return WhiteSafeArea(
@@ -39,8 +39,8 @@ class LoginScreen extends StatelessWidget {
             'It’s great you are here your business life is about to go digitial',
       );
 
-  Widget get formBody => GetBuilder<LoginController>(
-        init: LoginController(),
+  Widget get formBody => GetBuilder<RegisterController>(
+        init: RegisterController(),
         builder: (controller) => Form(
           key: controller.formKey,
           child: Column(
