@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "193383475576",
+    "firebase_url": "https://impresa-cc38e.firebaseio.com",
+    "project_id": "impresa-cc38e",
+    "storage_bucket": "impresa-cc38e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:193383475576:android:2d41b1fe597d4f50c1808d",
+        "android_client_info": {
+          "package_name": "com.tee.impresa"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "193383475576-94co6ukm8g08u6esb0uobjp2u1j2n08c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCoitXv56dv1_r7EZviKoHDJi_zbqYc3q0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "193383475576-94co6ukm8g08u6esb0uobjp2u1j2n08c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
