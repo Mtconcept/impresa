@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../controllers/onboarding_controller.dart';
 import '../widgets/onboarding_bottom_sheet.dart';
 import '../widgets/white_status_bar.dart';
