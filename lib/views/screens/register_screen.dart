@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../controllers/register_controller.dart';
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
@@ -50,6 +49,9 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
+              onChanged: (value) {
+                controller.fullName = value;
+              },
               validator: controller.validateFullName,
               decoration: InputDecoration(
                 hintText: 'Full Name',
@@ -57,6 +59,9 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              onChanged: (value) {
+                controller.email = value;
+              },
               validator: controller.validateEmail,
               decoration: InputDecoration(
                 hintText: 'Email Address',
@@ -64,6 +69,9 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              onChanged: (value) {
+                controller.phoneNumber = value;
+              },
               validator: controller.validatePhoneNumber,
               decoration: InputDecoration(
                 hintText: 'Phone Number',
@@ -71,17 +79,19 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              onChanged: (value) {
+                controller.password = value;
+              },
               validator: controller.validatePassword,
-              decoration: InputDecoration(
-                hintText: 'Password',
-              ),
+              decoration:
+                  InputDecoration(hintText: 'Password', suffix: Text('show')),
             ),
             SizedBox(height: 60),
             Hero(
               tag: 'button',
               child: RaisedButton(
                 child: Text('Sign Up'),
-                onPressed: controller.validateForm,
+                onPressed: controller.registerUser,
               ),
             ),
           ],

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../controllers/login_controller.dart';
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
@@ -49,6 +48,9 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
+              onChanged: (value) {
+                controller.email = value;
+              },
               validator: controller.validateEmail,
               decoration: InputDecoration(
                 hintText: 'Email Address',
@@ -56,6 +58,9 @@ class LoginScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
+              onChanged: (value) {
+                controller.password = value;
+              },
               validator: controller.validatePassword,
               decoration: InputDecoration(
                 hintText: 'Password',
@@ -66,7 +71,7 @@ class LoginScreen extends StatelessWidget {
               tag: 'button',
               child: RaisedButton(
                 child: Text('Sign In'),
-                onPressed: controller.validateForm,
+                onPressed: controller.signInUser,
               ),
             ),
           ],
