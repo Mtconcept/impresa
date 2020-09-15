@@ -22,7 +22,6 @@ class RegisterController extends Notifier with ValidationMixin {
   final passwordController = TextEditingController();
 
   bool showPasswordField = true;
-
   final formKey = GlobalKey<FormState>();
   //String fullName, emailAddress, phoneNumber, password;
   TapGestureRecognizer login;
@@ -45,7 +44,7 @@ class RegisterController extends Notifier with ValidationMixin {
 
       try {
         RegisterParams params = RegisterParams(
-          emailAddress: fullNameController.text,
+          emailAddress: emailAddressController.text,
           password: passwordController.text,
           fullName: fullNameController.text,
           phoneNumber: phoneNumberController.text,
