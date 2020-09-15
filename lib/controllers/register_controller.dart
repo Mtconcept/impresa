@@ -8,7 +8,7 @@ import '../core/utils/validation_mixin.dart';
 import '../models/app_user.dart';
 import '../models/register_params.dart';
 import '../services/auth_service/auth_service.dart';
-import '../views/screens/home.dart';
+import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen.dart';
 
 class RegisterController extends Notifier with ValidationMixin {
@@ -44,14 +44,16 @@ class RegisterController extends Notifier with ValidationMixin {
 
       try {
         RegisterParams params = RegisterParams(
-          emailAddress: emailAddressController.text,
+          emailAddress: emailAddressController.text.trim(),
           password: passwordController.text,
-          fullName: fullNameController.text,
+          fullName: fullNameController.text.trim(),
           phoneNumber: phoneNumberController.text,
         );
 
         _user = await Get.find<AuthService>().register(params);
-        Get.to(Home());
+
+        setState(NotifierState.isIdle);
+        Get.to(HomeScreen());
       } on Failure catch (f) {
         setState(NotifierState.isIdle);
         Get.snackbar(
@@ -62,6 +64,7 @@ class RegisterController extends Notifier with ValidationMixin {
           snackPosition: SnackPosition.BOTTOM,
         );
       }
+      setState(NotifierState.isIdle);
     }
   }
 
