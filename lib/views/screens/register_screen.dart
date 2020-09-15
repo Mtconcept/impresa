@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
 import '../../controllers/register_controller.dart';
+import '../../core/utils/notifier.dart';
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
 
@@ -49,9 +51,9 @@ class RegisterScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              onChanged: (value) {
-                controller.fullName = value;
-              },
+              controller: controller.fullNameController,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: controller.focusToEmail,
               validator: controller.validateFullName,
               decoration: InputDecoration(
                 hintText: 'Full Name',
@@ -59,38 +61,56 @@ class RegisterScreen extends StatelessWidget {
             ),
             SizedBox(height: 20),
             TextFormField(
-              onChanged: (value) {
-                controller.email = value;
-              },
+              controller: controller.emailAddressController,
+              textInputAction: TextInputAction.next,
+              focusNode: controller.emailFocusNode,
+              onFieldSubmitted: controller.focusToPhone,
               validator: controller.validateEmail,
+              keyboardType: TextInputType.emailAddress,
               decoration: InputDecoration(
                 hintText: 'Email Address',
               ),
             ),
             SizedBox(height: 20),
             TextFormField(
-              onChanged: (value) {
-                controller.phoneNumber = value;
-              },
+              controller: controller.phoneNumberController,
+              textInputAction: TextInputAction.next,
+              focusNode: controller.phoneFocusNode,
+              keyboardType: TextInputType.number,
+              maxLength: 11,
+              onFieldSubmitted: controller.focusToPassword,
               validator: controller.validatePhoneNumber,
               decoration: InputDecoration(
                 hintText: 'Phone Number',
+                counterText: "",
               ),
             ),
             SizedBox(height: 20),
             TextFormField(
-              onChanged: (value) {
-                controller.password = value;
-              },
+              controller: controller.passwordController,
+              focusNode: controller.passwordFocusNode,
+              obscureText: controller.showPasswordField,
               validator: controller.validatePassword,
-              decoration:
-                  InputDecoration(hintText: 'Password', suffix: Text('show')),
+              decoration: InputDecoration(
+                hintText: 'Password',
+                suffix: controller.showPasswordField
+                    ? GestureDetector(
+                        onTap: controller.togglePasswordFieldVisibility,
+                        child: Text('Show'))
+                    : GestureDetector(
+                        onTap: controller.togglePasswordFieldVisibility,
+                        child: Text('Hide')),
+              ),
             ),
             SizedBox(height: 60),
             Hero(
               tag: 'button',
               child: RaisedButton(
-                child: Text('Sign Up'),
+                child: controller.state == NotifierState.isIdle
+                    ? Text('Sign Up')
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
                 onPressed: controller.registerUser,
               ),
             ),

@@ -1,22 +1,33 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:impresa/views/screens/home.dart';
+
+import '../core/utils/failure.dart';
+import '../core/utils/notifier.dart';
 import '../core/utils/validation_mixin.dart';
+import '../models/app_user.dart';
+import '../models/register_params.dart';
+import '../services/auth_service/auth_service.dart';
+import '../views/screens/home.dart';
 import '../views/screens/login_screen.dart';
 
-class RegisterController extends GetxController with ValidationMixin {
-  String fullName;
-  String email;
-  String phoneNumber;
-  String password;
-  var user;
+class RegisterController extends Notifier with ValidationMixin {
+  final emailFocusNode = FocusNode();
+  final phoneFocusNode = FocusNode();
+  final passwordFocusNode = FocusNode();
+
+  final fullNameController = TextEditingController();
+  final emailAddressController = TextEditingController();
+  final phoneNumberController = TextEditingController();
+  final passwordController = TextEditingController();
+
+  bool showPasswordField = true;
   final formKey = GlobalKey<FormState>();
+  //String fullName, emailAddress, phoneNumber, password;
   TapGestureRecognizer login;
-  final auth = FirebaseAuth.instance;
-  final databaseReference = FirebaseFirestore.instance;
+
+  AppUser _user;
+  AppUser get user => _user;
 
   @override
   void onInit() {
@@ -27,31 +38,47 @@ class RegisterController extends GetxController with ValidationMixin {
     super.onInit();
   }
 
-  void validateForm() {
-    formKey.currentState.validate();
-  }
-
   void registerUser() async {
-    validateForm();
-    user = await auth.createUserWithEmailAndPassword(
-        email: email, password: password);
-    print(user);
-    if (user == null) {
-      Get.rawSnackbar(title: 'Can\'t create user', isDismissible: true);
-    } else {
-      Get.dialog(Text('Creating User'));
-      Future.delayed(Duration(milliseconds: 3000));
-      Get.back();
-      createUser();
-      Get.to(Home());
+    if (formKey.currentState.validate()) {
+      setState(NotifierState.isLoading);
+
+      try {
+        RegisterParams params = RegisterParams(
+          emailAddress: emailAddressController.text,
+          password: passwordController.text,
+          fullName: fullNameController.text,
+          phoneNumber: phoneNumberController.text,
+        );
+
+        _user = await Get.find<AuthService>().register(params);
+        Get.to(Home());
+      } on Failure catch (f) {
+        setState(NotifierState.isIdle);
+        Get.snackbar(
+          'Error',
+          f.message,
+          colorText: Get.theme.colorScheme.onError,
+          backgroundColor: Get.theme.errorColor,
+          snackPosition: SnackPosition.BOTTOM,
+        );
+      }
     }
   }
 
-  void createUser() async {
-    User user = auth.currentUser;
-    databaseReference
-        .collection('users')
-        .doc(user.uid)
-        .set({'fullname': fullName, 'phone': phoneNumber});
+  void focusToEmail(String value) {
+    emailFocusNode.requestFocus();
+  }
+
+  void focusToPhone(String value) {
+    phoneFocusNode.requestFocus();
+  }
+
+  void focusToPassword(String value) {
+    passwordFocusNode.requestFocus();
+  }
+
+  void togglePasswordFieldVisibility() {
+    showPasswordField = !showPasswordField;
+    update();
   }
 }
