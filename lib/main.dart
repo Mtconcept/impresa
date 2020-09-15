@@ -1,6 +1,7 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:impresa/views/screens/home_screen.dart';
 
 import 'core/themes/app_theme.dart';
 import 'services/service_locator.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Impresa',
       theme: AppTheme.lightThemeData,
-      home: OnboardingScreen(),
+      home: HomeScreen(),
     );
   }
 }

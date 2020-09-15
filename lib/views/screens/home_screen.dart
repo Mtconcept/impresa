@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:impresa/views/widgets/white_status_bar.dart';
+import 'package:get/get.dart';
+
+import '../../controllers/business_cards_controller.dart';
+import '../cards/card1.dart';
+import '../widgets/white_status_bar.dart';
 
 class HomeScreen extends StatelessWidget {
   @override
@@ -7,36 +11,59 @@ class HomeScreen extends StatelessWidget {
     return WhiteStatusBar(
       child: Scaffold(
         body: SafeArea(
-          child: Column(
-            children: [
-              homeHeader(context),
-              SizedBox(height: 4.0),
-              Expanded(
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor,
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(30),
-                      topRight: Radius.circular(30),
+          child: GetBuilder<BusinessCardsController>(
+            init: BusinessCardsController(),
+            builder: (controller) {
+              return Column(
+                children: [
+                  homeHeader(context, controller),
+                  SizedBox(height: 4.0),
+                  Expanded(
+                    child: Container(
+                      padding:
+                          EdgeInsets.only(top: 30.0, left: 30.0, right: 30.0),
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).primaryColor,
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(30),
+                          topRight: Radius.circular(30),
+                        ),
+                      ),
+                      child: Column(
+                        children: [
+                          Card1(),
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ),
-            ],
+                ],
+              );
+            },
           ),
         ),
       ),
     );
   }
 
-  Widget homeHeader(BuildContext context) => Container(
+  Widget homeHeader(BuildContext context, BusinessCardsController controller) =>
+      Container(
         padding: EdgeInsets.all(32),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(
-              'Choose A\nTemplate',
-              style: Theme.of(context).textTheme.headline1,
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Choose A\nTemplate',
+                  style: Theme.of(context).textTheme.headline1,
+                ),
+                InkWell(
+                  onTap: controller.updateView,
+                  child: Icon(Icons.swap_vertical_circle, size: 36),
+                )
+              ],
             ),
             SizedBox(height: 4.0),
             Text(
