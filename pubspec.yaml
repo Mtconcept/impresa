@@ -27,8 +27,8 @@ flutter:
   uses-material-design: true
 
   assets:
-    - assets/images/onboarding1.png
-    - assets/images/onboarding2.png
+    - assets/images/
+    - assets/svg/
 
   fonts:
     - family: JosefinSans

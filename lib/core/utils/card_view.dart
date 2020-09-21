@@ -1,0 +1,1 @@
+enum CardView { front, back }

@@ -1,21 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../controllers/business_cards_controller.dart';
+import '../../core/utils/card_view.dart';
 import '../widgets/business_card_container.dart';
+import '../../core/utils/size_util.dart';
 
 class Card1 extends StatelessWidget {
+  final CardView cardView;
+
+  const Card1({Key key, @required this.cardView}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-    return GetBuilder<BusinessCardsController>(
-      builder: (controller) => controller.isFront ? front() : back(),
-    );
+    return cardView == CardView.front ? front(context) : back();
   }
 
-  Widget front() {
+  Widget front(BuildContext context) {
     return BusinessCardContainer(
-      child: Center(
-        child: Text('Hello Front'),
+      child: Stack(
+        children: [
+          SvgPicture.asset(
+            'assets/svg/card1_front_bg.svg',
+            fit: BoxFit.cover,
+            height: SizeUtil(context).cardHeight,
+          ),
+        ],
       ),
     );
   }

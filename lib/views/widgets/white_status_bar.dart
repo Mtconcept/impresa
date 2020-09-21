@@ -15,8 +15,8 @@ class WhiteStatusBar extends StatelessWidget {
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.white,
         statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Theme.of(context).primaryColor,
-        systemNavigationBarIconBrightness: Brightness.light,
+        systemNavigationBarColor: Color(0xFFEEEBF3),
+        systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: child,
     );

@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
+import '../../core/utils/size_util.dart';
 
 class BusinessCardContainer extends StatelessWidget {
   final Widget child;
-  const BusinessCardContainer({this.child});
+  final Color backgroundColor;
+  const BusinessCardContainer({this.child, this.backgroundColor});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: MediaQuery.of(context).size.width,
-      height: (MediaQuery.of(context).size.width * 0.5433) - 32,
+      width: SizeUtil(context).cardWidth,
+      height: SizeUtil(context).cardHeight,
       child: Card(
+        color: backgroundColor,
+        clipBehavior: Clip.antiAliasWithSaveLayer,
         elevation: 5,
+        margin: EdgeInsets.all(0),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
