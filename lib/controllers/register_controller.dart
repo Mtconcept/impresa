@@ -23,11 +23,7 @@ class RegisterController extends Notifier with ValidationMixin {
 
   bool showPasswordField = true;
   final formKey = GlobalKey<FormState>();
-  //String fullName, emailAddress, phoneNumber, password;
   TapGestureRecognizer login;
-
-  AppUser _user;
-  AppUser get user => _user;
 
   @override
   void onInit() {
@@ -50,10 +46,10 @@ class RegisterController extends Notifier with ValidationMixin {
           phoneNumber: phoneNumberController.text,
         );
 
-        _user = await Get.find<AuthService>().register(params);
+        AppUser user = await Get.find<AuthService>().register(params);
 
         setState(NotifierState.isIdle);
-        Get.to(HomeScreen());
+        Get.off(HomeScreen(user: user));
       } on Failure catch (f) {
         setState(NotifierState.isIdle);
         Get.snackbar(
@@ -64,6 +60,7 @@ class RegisterController extends Notifier with ValidationMixin {
           snackPosition: SnackPosition.BOTTOM,
         );
       }
+
       setState(NotifierState.isIdle);
     }
   }

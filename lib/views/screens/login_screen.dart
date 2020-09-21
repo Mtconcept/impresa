@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+
+import '../../controllers/login_anonymously_controller.dart';
 import '../../controllers/login_controller.dart';
+import '../../core/utils/notifier.dart';
 import '../widgets/form_header.dart';
 import '../widgets/white_safearea.dart';
 
@@ -48,30 +51,46 @@ class LoginScreen extends StatelessWidget {
         child: Column(
           children: [
             TextFormField(
-              onChanged: (value) {
-                controller.email = value;
-              },
+              controller: controller.emailAddressController,
               validator: controller.validateEmail,
+              textInputAction: TextInputAction.next,
+              keyboardType: TextInputType.emailAddress,
+              onFieldSubmitted: controller.focusToPassword,
               decoration: InputDecoration(
                 hintText: 'Email Address',
               ),
             ),
             SizedBox(height: 20),
             TextFormField(
-              onChanged: (value) {
-                controller.password = value;
+              controller: controller.passwordController,
+              focusNode: controller.passwordFocusNode,
+              textInputAction: TextInputAction.done,
+              obscureText: controller.showPasswordField,
+              onFieldSubmitted: (value) {
+                controller.loginUser();
               },
               validator: controller.validatePassword,
               decoration: InputDecoration(
                 hintText: 'Password',
+                suffix: controller.showPasswordField
+                    ? GestureDetector(
+                        onTap: controller.togglePasswordFieldVisibility,
+                        child: Text('Show'))
+                    : GestureDetector(
+                        onTap: controller.togglePasswordFieldVisibility,
+                        child: Text('Hide')),
               ),
             ),
             SizedBox(height: 60),
             Hero(
               tag: 'button',
               child: RaisedButton(
-                child: Text('Sign In'),
-                onPressed: controller.signInUser,
+                child: controller.state == NotifierState.isIdle
+                    ? Text('Sign In')
+                    : CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                onPressed: controller.loginUser,
               ),
             ),
           ],
@@ -95,19 +114,33 @@ class LoginScreen extends StatelessWidget {
         ),
       );
 
-  Widget continueWithoutLogin(BuildContext context) => RichText(
-        text: TextSpan(
-          text: 'Continue without',
-          style: Theme.of(context).textTheme.subtitle2,
-          children: <TextSpan>[
-            TextSpan(
-              text: ' Login',
-              style: Theme.of(context).textTheme.subtitle2.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
-        ),
+  Widget continueWithoutLogin(BuildContext context) =>
+      GetBuilder<LoginAnonymouslyController>(
+        init: LoginAnonymouslyController(),
+        builder: (controller) => controller.state == NotifierState.isLoading
+            ? Text(
+                'Please wait...',
+                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+              )
+            : RichText(
+                text: TextSpan(
+                  text: 'Continue without',
+                  recognizer: controller.loginAnonymously,
+                  style: Theme.of(context).textTheme.subtitle2,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' Login',
+                      recognizer: controller.loginAnonymously,
+                      style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
       );
 }

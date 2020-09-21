@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:impresa/controllers/login_anonymously_controller.dart';
 
 import '../../controllers/register_controller.dart';
 import '../../core/utils/notifier.dart';
@@ -26,7 +27,7 @@ class RegisterScreen extends StatelessWidget {
                     SizedBox(height: 40),
                     haveAnAccount(context, controller),
                     SizedBox(height: 40),
-                    continueWithoutLogin(context),
+                    continueWithoutSignUp(context),
                   ],
                 ),
               ),
@@ -89,8 +90,12 @@ class RegisterScreen extends StatelessWidget {
             TextFormField(
               controller: controller.passwordController,
               focusNode: controller.passwordFocusNode,
+              textInputAction: TextInputAction.done,
               obscureText: controller.showPasswordField,
               validator: controller.validatePassword,
+              onFieldSubmitted: (value) {
+                controller.registerUser();
+              },
               decoration: InputDecoration(
                 hintText: 'Password',
                 suffix: controller.showPasswordField
@@ -135,19 +140,33 @@ class RegisterScreen extends StatelessWidget {
         ),
       );
 
-  Widget continueWithoutLogin(BuildContext context) => RichText(
-        text: TextSpan(
-          text: 'Continue without',
-          style: Theme.of(context).textTheme.subtitle2,
-          children: <TextSpan>[
-            TextSpan(
-              text: ' Login',
-              style: Theme.of(context).textTheme.subtitle2.copyWith(
-                    color: Theme.of(context).colorScheme.primary,
-                    fontWeight: FontWeight.bold,
-                  ),
-            ),
-          ],
-        ),
+  Widget continueWithoutSignUp(BuildContext context) =>
+      GetBuilder<LoginAnonymouslyController>(
+        init: LoginAnonymouslyController(),
+        builder: (controller) => controller.state == NotifierState.isLoading
+            ? Text(
+                'Please wait...',
+                style: Theme.of(context).textTheme.subtitle2.copyWith(
+                      color: Theme.of(context).colorScheme.primary,
+                      fontWeight: FontWeight.bold,
+                    ),
+              )
+            : RichText(
+                text: TextSpan(
+                  text: 'Continue without',
+                  recognizer: controller.loginAnonymously,
+                  style: Theme.of(context).textTheme.subtitle2,
+                  children: <TextSpan>[
+                    TextSpan(
+                      text: ' Sign up',
+                      recognizer: controller.loginAnonymously,
+                      style: Theme.of(context).textTheme.subtitle2.copyWith(
+                            color: Theme.of(context).colorScheme.primary,
+                            fontWeight: FontWeight.bold,
+                          ),
+                    ),
+                  ],
+                ),
+              ),
       );
 }
