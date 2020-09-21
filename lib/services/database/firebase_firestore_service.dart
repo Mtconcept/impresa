@@ -1,30 +1,24 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../models/app_user.dart';
-import 'database.dart';
+import 'database_service.dart';
 
-class FirebaseFirestoreService implements Database {
+class FirebaseFirestoreService implements DatabaseService {
   final userCollection = FirebaseFirestore.instance.collection('users');
 
-  AppUser _userDataFromSnapshot(DocumentSnapshot snapshot) => AppUser(
-        id: snapshot.id,
-        fullName: snapshot.data()['fullName'],
-        emailAddress: snapshot.data()['emailAddress'],
-        phoneNumber: snapshot.data()['phoneNumber'],
-      );
-
+  @override
   Future<AppUser> getUserWithId(String userId) async {
     final snapshot = await userCollection.doc(userId).get();
-    return _userDataFromSnapshot(snapshot);
+    return AppUser.fromDocumentSnapshot(snapshot);
   }
 
-  Future<AppUser> createUserWithId(String userId,
+  @override
+  Future<void> createUserWithId(String userId,
       {String emailAddress, String fullName, String phoneNumber}) async {
-    await userCollection.doc(userId).set({
+    return await userCollection.doc(userId).set({
       'emailAddress': emailAddress,
       'fullName': fullName,
       'phoneNumber': phoneNumber,
     });
-    return getUserWithId(userId);
   }
 }

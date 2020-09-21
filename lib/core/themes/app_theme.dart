@@ -32,6 +32,7 @@ class AppTheme {
   );
 
   /// TextStyles Usage
+  /// Headline1 - Biggest Title i.e Choose a template
   /// Headline4 - Primary Title i.e Impresa
   /// Headline5 - Form Title i.e Form Title
   /// Subtitle1 - Primary Description i.e onboarding description
@@ -42,6 +43,11 @@ class AppTheme {
 
   static TextTheme _textTheme(ColorScheme colorScheme) {
     return TextTheme(
+      headline1: TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: colorScheme.onBackground,
+      ),
       headline4: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,

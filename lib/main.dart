@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 
 import 'core/themes/app_theme.dart';
 import 'services/service_locator.dart';
-import 'views/screens/onboarding_screen.dart';
+import 'views/screens/auth_wrapper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       title: 'Impresa',
       theme: AppTheme.lightThemeData,
-      home: OnboardingScreen(),
+      home: AuthWrapper(),
     );
   }
 }

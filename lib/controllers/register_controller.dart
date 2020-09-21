@@ -8,7 +8,7 @@ import '../core/utils/validation_mixin.dart';
 import '../models/app_user.dart';
 import '../models/register_params.dart';
 import '../services/auth_service/auth_service.dart';
-import '../views/screens/home.dart';
+import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen.dart';
 
 class RegisterController extends Notifier with ValidationMixin {
@@ -23,11 +23,7 @@ class RegisterController extends Notifier with ValidationMixin {
 
   bool showPasswordField = true;
   final formKey = GlobalKey<FormState>();
-  //String fullName, emailAddress, phoneNumber, password;
   TapGestureRecognizer login;
-
-  AppUser _user;
-  AppUser get user => _user;
 
   @override
   void onInit() {
@@ -44,14 +40,16 @@ class RegisterController extends Notifier with ValidationMixin {
 
       try {
         RegisterParams params = RegisterParams(
-          emailAddress: emailAddressController.text,
+          emailAddress: emailAddressController.text.trim(),
           password: passwordController.text,
-          fullName: fullNameController.text,
+          fullName: fullNameController.text.trim(),
           phoneNumber: phoneNumberController.text,
         );
 
-        _user = await Get.find<AuthService>().register(params);
-        Get.to(Home());
+        AppUser user = await Get.find<AuthService>().register(params);
+
+        setState(NotifierState.isIdle);
+        Get.off(HomeScreen(user: user));
       } on Failure catch (f) {
         setState(NotifierState.isIdle);
         Get.snackbar(
@@ -62,6 +60,8 @@ class RegisterController extends Notifier with ValidationMixin {
           snackPosition: SnackPosition.BOTTOM,
         );
       }
+
+      setState(NotifierState.isIdle);
     }
   }
 
