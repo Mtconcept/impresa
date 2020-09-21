@@ -42,3 +42,15 @@ flutter:
           weight: 600
         - asset: assets/fonts/JosefinSans-Bold.ttf
           weight: 700
+
+    - family: Lato
+      fonts:
+        - asset: assets/fonts/Lato-Thin.ttf
+          weight: 100
+        - asset: assets/fonts/Lato-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Lato-Regular.ttf
+        - asset: assets/fonts/Lato-Medium.ttf
+          weight: 700
+        - asset: assets/fonts/Lato-Black.ttf
+          weight: 900
