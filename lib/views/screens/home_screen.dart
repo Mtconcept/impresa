@@ -37,7 +37,7 @@ class HomeScreen extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Card1(cardView: CardView.front),
+                          Card1(cardView: CardView.back),
                         ],
                       ),
                     ),

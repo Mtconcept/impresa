@@ -17,7 +17,7 @@ class Card1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return cardView == CardView.front ? front(context) : back();
+    return cardView == CardView.front ? front(context) : back(context);
   }
 
   Widget front(BuildContext context) {
@@ -32,25 +32,28 @@ class Card1 extends StatelessWidget {
           Positioned(
             top: 0,
             bottom: 0,
-            right: 54,
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Image.asset(
-                  ImageUtil.logo(1),
-                  width: 60,
-                  height: 60,
-                ),
-                Text(
-                  'Company Name',
-                  style: titleStyle,
-                ),
-                SizedBox(height: 8.0),
-                Text(
-                  'Tagline here',
-                  style: subTitleStyle,
-                ),
-              ],
+            right: 0,
+            child: Container(
+              width: (SizeUtil(context).cardWidth / 2) - 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    ImageUtil.logo(1),
+                    width: 60,
+                    height: 60,
+                  ),
+                  Text(
+                    'Company Name',
+                    style: titleStyle,
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Tagline here',
+                    style: subTitleStyle,
+                  ),
+                ],
+              ),
             ),
           ),
           Align(
@@ -71,25 +74,117 @@ class Card1 extends StatelessWidget {
     );
   }
 
-  Widget back() {
+  Widget back(BuildContext context) {
     return BusinessCardContainer(
-      child: Center(
-        child: Text('Hello Back'),
+      child: Stack(
+        children: [
+          SvgPicture.asset(
+            ImageUtil.backBg(id),
+            fit: BoxFit.cover,
+            height: SizeUtil(context).cardHeight,
+          ),
+          Positioned(
+            top: 0,
+            bottom: 0,
+            child: Container(
+              width: (SizeUtil(context).cardWidth / 2) - 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Your Name',
+                    style: titleStyle,
+                  ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Your post here',
+                    style: subTitleStyle,
+                  ),
+                ],
+              ),
+            ),
+          ),
+          Positioned(
+            top: 0,
+            bottom: 0,
+            right: 0,
+            child: Container(
+              width: (SizeUtil(context).cardWidth / 3) - 5,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  IconAndText(
+                    icon: Icons.location_on,
+                    text: 'Your Full Work Address Here',
+                  ),
+                  SizedBox(height: 6),
+                  IconAndText(
+                    icon: Icons.phone,
+                    text: 'Your Phone Number Here',
+                  ),
+                  SizedBox(height: 6),
+                  IconAndText(
+                    icon: Icons.email,
+                    text: 'Your Email Address Here',
+                  ),
+                  SizedBox(height: 6),
+                  IconAndText(
+                    icon: Icons.link,
+                    text: 'Your Full Work Address Here',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
-
-  TextStyle get globalStyle => TextStyle(
-        fontFamily: 'Lato',
-        color: Colors.white,
-      );
-
-  TextStyle get titleStyle => globalStyle.copyWith(
-        fontWeight: FontWeight.w900,
-        fontSize: 12,
-      );
-
-  TextStyle get subTitleStyle => globalStyle.copyWith(
-        fontSize: 8,
-      );
 }
+
+class IconAndText extends StatelessWidget {
+  final IconData icon;
+  final String text;
+
+  const IconAndText({
+    Key key,
+    @required this.icon,
+    @required this.text,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Icon(
+          icon,
+          color: Colors.white,
+          size: 8,
+        ),
+        SizedBox(width: 4.0),
+        Text(
+          text,
+          style: list,
+        ),
+      ],
+    );
+  }
+}
+
+TextStyle get list => globalStyle.copyWith(
+      fontSize: 6,
+    );
+
+TextStyle get globalStyle => TextStyle(
+      fontFamily: 'Lato',
+      color: Colors.white,
+    );
+
+TextStyle get titleStyle => globalStyle.copyWith(
+      fontWeight: FontWeight.w900,
+      fontSize: 12,
+    );
+
+TextStyle get subTitleStyle => globalStyle.copyWith(
+      fontSize: 8,
+    );
