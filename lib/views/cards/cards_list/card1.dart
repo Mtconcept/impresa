@@ -1,25 +1,37 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-import '../../core/utils/card_view.dart';
-import '../../core/utils/image_util.dart';
-import '../../core/utils/size_util.dart';
-import '../widgets/business_card_container.dart';
+import '../../../core/utils/card_view.dart';
+import '../../../core/utils/image_util.dart';
+import '../../../core/utils/size_util.dart';
+import '../../../models/card_info.dart';
+import '../../widgets/business_card_container.dart';
+import '../business_card.dart';
 
-class Card1 extends StatelessWidget {
+class Card1 extends StatelessWidget implements BusinessCard {
+  @override
   final int id = 1;
+
+  @override
   final CardView cardView;
 
+  @override
+  final CardInfo cardInfo;
+
+  @override
+  final List<String> tags = const ['Example'];
+
   const Card1({
-    Key key,
     @required this.cardView,
-  }) : super(key: key);
+    @required this.cardInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
     return cardView == CardView.front ? front(context) : back(context);
   }
 
+  @override
   Widget front(BuildContext context) {
     return BusinessCardContainer(
       child: Stack(
@@ -44,12 +56,12 @@ class Card1 extends StatelessWidget {
                     height: 60,
                   ),
                   Text(
-                    'Company Name',
+                    cardInfo.brandName,
                     style: titleStyle,
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Tagline here',
+                    cardInfo.tagline,
                     style: subTitleStyle,
                   ),
                 ],
@@ -63,7 +75,7 @@ class Card1 extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.all(14.0),
                 child: Text(
-                  'Tagline here',
+                  cardInfo.tagline,
                   style: subTitleStyle,
                 ),
               ),
@@ -74,6 +86,7 @@ class Card1 extends StatelessWidget {
     );
   }
 
+  @override
   Widget back(BuildContext context) {
     return BusinessCardContainer(
       child: Stack(

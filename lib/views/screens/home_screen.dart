@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../controllers/home_controller.dart';
-import '../../core/utils/card_view.dart';
 import '../../models/app_user.dart';
-import '../cards/card1.dart';
+import '../cards/business_cards_list.dart';
 import '../widgets/white_status_bar.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,25 +22,7 @@ class HomeScreen extends StatelessWidget {
                 children: [
                   homeHeader(context, controller),
                   SizedBox(height: 4.0),
-                  Expanded(
-                    child: Container(
-                      padding:
-                          EdgeInsets.only(top: 40.0, left: 40.0, right: 40.0),
-                      decoration: BoxDecoration(
-                        color: Color(0xFFEEEBF3),
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(30),
-                          topRight: Radius.circular(30),
-                        ),
-                      ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Card1(cardView: CardView.back),
-                        ],
-                      ),
-                    ),
-                  ),
+                  cardsList(controller),
                 ],
               );
             },
@@ -92,6 +73,29 @@ class HomeScreen extends StatelessWidget {
               ),
             ),
           ],
+        ),
+      );
+
+  Widget cardsList(HomeController controller) => Expanded(
+        child: Container(
+          padding: EdgeInsets.only(top: 40.0, left: 40.0, right: 40.0),
+          decoration: BoxDecoration(
+            color: Color(0xFFEEEBF3),
+            borderRadius: BorderRadius.only(
+              topLeft: Radius.circular(30),
+              topRight: Radius.circular(30),
+            ),
+          ),
+          child: ListView(
+            children: cards
+                .map(
+                  (card) => GestureDetector(
+                    onTap: () => controller.goToCardDetail(card.id),
+                    child: card,
+                  ),
+                )
+                .toList(),
+          ),
         ),
       );
 }
