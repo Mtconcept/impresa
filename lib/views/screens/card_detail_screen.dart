@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:impresa/core/utils/card_view.dart';
+import 'package:impresa/models/card_info.dart';
 
 import '../../controllers/card_detail_controller.dart';
 import '../cards/business_cards_list.dart';
@@ -9,6 +11,7 @@ class CardDetailScreen extends StatelessWidget {
   final int id;
 
   const CardDetailScreen({this.id});
+
   @override
   Widget build(BuildContext context) {
     final onPrimary = Theme.of(context).colorScheme.onPrimary;
@@ -35,7 +38,12 @@ class CardDetailScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  Hero(tag: 'card', child: cards[id - 1].front(context)),
+                  Hero(
+                      tag: 'card',
+                      child: cards(
+                        CardView.front,
+                        CardInfo.app(),
+                      )[id - 1]),
                   SizedBox(height: 16),
                   Center(
                     child: Text(
@@ -47,7 +55,10 @@ class CardDetailScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  cards[id - 1].back(context),
+                  cards(
+                    CardView.back,
+                    CardInfo.app(),
+                  )[id - 1],
                   Spacer(),
                   RaisedButton(
                     child: Text('Customize Card'),

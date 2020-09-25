@@ -8,23 +8,17 @@ import '../../../models/card_info.dart';
 import '../../widgets/business_card_container.dart';
 import '../business_card.dart';
 
-class Card1 extends StatelessWidget implements BusinessCard {
-  @override
+class Card1 extends BusinessCard {
   final int id = 1;
-
-  @override
-  final CardView cardView;
-
-  @override
-  final CardInfo cardInfo;
-
-  @override
   final List<String> tags = const ['Example'];
 
-  const Card1({
-    @required this.cardView,
-    @required this.cardInfo,
-  });
+  Card1({
+    @required CardView cardView,
+    @required CardInfo cardInfo,
+  }) : super(
+          cardView: cardView,
+          cardInfo: cardInfo,
+        );
 
   @override
   Widget build(BuildContext context) {

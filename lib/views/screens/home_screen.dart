@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:impresa/core/utils/card_view.dart';
+import 'package:impresa/models/card_info.dart';
 
 import '../../controllers/home_controller.dart';
 import '../../models/app_user.dart';
@@ -87,7 +89,7 @@ class HomeScreen extends StatelessWidget {
             ),
           ),
           child: ListView(
-            children: cards
+            children: cards(CardView.front, CardInfo.app())
                 .map(
                   (card) => GestureDetector(
                     onTap: () => controller.goToCardDetail(card.id),
