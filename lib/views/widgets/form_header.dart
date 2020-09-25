@@ -7,7 +7,7 @@ class FormHeader extends StatelessWidget {
   const FormHeader({
     Key key,
     @required this.title,
-    @required this.description,
+    this.description,
   }) : super(key: key);
 
   @override
@@ -25,7 +25,7 @@ class FormHeader extends StatelessWidget {
               ),
               SizedBox(height: 10),
               Text(
-                description,
+                description ?? '',
                 style: Theme.of(context).textTheme.bodyText2,
               ),
             ],

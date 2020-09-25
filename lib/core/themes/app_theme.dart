@@ -39,6 +39,7 @@ class AppTheme {
   /// Subtitle2 - Titles without real emphasis i.e Continue without login
   /// BodyText1 - Regular Texts i.e TextField hintText
   /// BodyText2 - Small Description i.e Form Title Description
+  /// Caption - Navigation Icon Text i.e Back
   /// Button - Button Text
 
   static TextTheme _textTheme(ColorScheme colorScheme) {
@@ -73,6 +74,11 @@ class AppTheme {
       bodyText2: TextStyle(
         fontSize: 14,
         color: colorScheme.onSurface,
+      ),
+      caption: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 18.0,
+        color: colorScheme.onPrimary,
       ),
       button: TextStyle(
         fontSize: 16,
