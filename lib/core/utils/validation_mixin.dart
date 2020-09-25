@@ -1,7 +1,14 @@
 class ValidationMixin {
+  String validateNotEmpty(String value) {
+    if (value.isEmpty) {
+      return 'Field cannot be empty';
+    }
+    return null;
+  }
+
   String validateFullName(String fullName) {
     if (fullName.split(' ').length < 2) {
-      return 'Enter your Full Name';
+      return 'Enter a valid Full Name';
     }
     return null;
   }

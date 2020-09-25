@@ -9,7 +9,6 @@ import '../widgets/transparent_status_bar.dart';
 
 class CardDetailScreen extends StatelessWidget {
   final int id;
-
   const CardDetailScreen({this.id});
 
   @override
@@ -62,7 +61,7 @@ class CardDetailScreen extends StatelessWidget {
                   Spacer(),
                   RaisedButton(
                     child: Text('Customize Card'),
-                    onPressed: () {},
+                    onPressed: () => controller.goToAddCardInfo(id),
                     color: Theme.of(context).colorScheme.onPrimary,
                     textColor: Theme.of(context).primaryColor,
                   )
