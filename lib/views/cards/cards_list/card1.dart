@@ -39,6 +39,7 @@ class Card1 extends StatelessWidget implements BusinessCard {
           SvgPicture.asset(
             ImageUtil.frontBg(id),
             fit: BoxFit.cover,
+            width: double.infinity,
             height: SizeUtil(context).cardHeight,
           ),
           Positioned(

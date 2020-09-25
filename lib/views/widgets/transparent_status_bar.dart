@@ -11,6 +11,7 @@ class TransparentStatusBar extends StatelessWidget {
     return AnnotatedRegion(
       value: SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
+        statusBarBrightness: Brightness.light,
         systemNavigationBarColor: Theme.of(context).primaryColor,
         systemNavigationBarIconBrightness: Brightness.light,
       ),

@@ -91,7 +91,7 @@ class HomeScreen extends StatelessWidget {
                 .map(
                   (card) => GestureDetector(
                     onTap: () => controller.goToCardDetail(card.id),
-                    child: card,
+                    child: Hero(tag: 'card', child: card),
                   ),
                 )
                 .toList(),
