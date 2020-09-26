@@ -102,16 +102,13 @@ class AddCardInfoScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 60),
-            Hero(
-              tag: 'button',
-              child: RaisedButton(
-                child: controller.state == NotifierState.isIdle
-                    ? Text('Save Card')
-                    : CircularProgressIndicator(
-                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
-                      ),
-                onPressed: controller.saveCard,
-              ),
+            RaisedButton(
+              child: controller.state == NotifierState.isIdle
+                  ? Text('Save Card')
+                  : CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                    ),
+              onPressed: controller.saveCard,
             ),
           ],
         ),

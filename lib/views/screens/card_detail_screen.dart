@@ -38,11 +38,11 @@ class CardDetailScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Hero(
-                      tag: 'card',
+                      tag: 'card$id',
                       child: cards(
                         CardView.front,
                         CardInfo.app(),
-                      )[id - 1]),
+                      )[id]),
                   SizedBox(height: 16),
                   Center(
                     child: Text(
@@ -57,7 +57,7 @@ class CardDetailScreen extends StatelessWidget {
                   cards(
                     CardView.back,
                     CardInfo.app(),
-                  )[id - 1],
+                  )[id],
                   Spacer(),
                   RaisedButton(
                     child: Text('Customize Card'),
