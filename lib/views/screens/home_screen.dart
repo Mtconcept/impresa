@@ -93,7 +93,12 @@ class HomeScreen extends StatelessWidget {
                 .map(
                   (card) => GestureDetector(
                     onTap: () => controller.goToCardDetail(card.id),
-                    child: Hero(tag: 'card', child: card),
+                    child: Column(
+                      children: [
+                        Hero(tag: 'card$card.id', child: card),
+                        SizedBox(height: 32)
+                      ],
+                    ),
                   ),
                 )
                 .toList(),

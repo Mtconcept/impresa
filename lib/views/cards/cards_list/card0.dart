@@ -8,11 +8,11 @@ import '../../../models/card_info.dart';
 import '../../widgets/business_card_container.dart';
 import '../business_card.dart';
 
-class Card1 extends BusinessCard {
-  final int id = 1;
+class Card0 extends BusinessCard {
+  final int id = 0;
   final List<String> tags = const ['Example'];
 
-  Card1({
+  Card0({
     @required CardView cardView,
     @required CardInfo cardInfo,
   }) : super(
@@ -40,8 +40,8 @@ class Card1 extends BusinessCard {
             top: 0,
             bottom: 0,
             right: 0,
+            left: 0,
             child: Container(
-              width: (SizeUtil(context).cardWidth / 2) - 5,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -54,25 +54,12 @@ class Card1 extends BusinessCard {
                     cardInfo.brandName,
                     style: titleStyle,
                   ),
-                  SizedBox(height: 8.0),
+                  SizedBox(height: 6.0),
                   Text(
                     cardInfo.tagline,
                     style: subTitleStyle,
                   ),
                 ],
-              ),
-            ),
-          ),
-          Align(
-            alignment: Alignment.centerLeft,
-            child: RotatedBox(
-              quarterTurns: 3,
-              child: Padding(
-                padding: const EdgeInsets.all(14.0),
-                child: Text(
-                  cardInfo.tagline,
-                  style: subTitleStyle,
-                ),
               ),
             ),
           ),
@@ -94,51 +81,76 @@ class Card1 extends BusinessCard {
           Positioned(
             top: 0,
             bottom: 0,
-            child: Container(
-              width: (SizeUtil(context).cardWidth / 2) - 5,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    'Your Name',
-                    style: titleStyle,
-                  ),
-                  SizedBox(height: 8.0),
-                  Text(
-                    'Your post here',
-                    style: subTitleStyle,
-                  ),
-                ],
-              ),
+            left: 36,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Column(
+                  children: [
+                    RichText(
+                      text: TextSpan(
+                        text: 'Your',
+                        style: titleStyle.copyWith(color: Colors.white),
+                        children: <TextSpan>[
+                          TextSpan(
+                            text: ' Name',
+                            style: titleStyle.copyWith(color: primary),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(height: 6),
+                    Text(
+                      'Your post here',
+                      style: subTitleStyle.copyWith(color: Colors.white),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 18),
+                IconAndText(
+                  icon: Icons.location_on,
+                  text: 'Your Full Work Address Here',
+                ),
+                SizedBox(height: 6),
+                IconAndText(
+                  icon: Icons.phone,
+                  text: 'Your Phone Number Here',
+                ),
+                SizedBox(height: 6),
+                IconAndText(
+                  icon: Icons.email,
+                  text: 'Your Email Address Here',
+                ),
+                SizedBox(height: 6),
+                IconAndText(
+                  icon: Icons.link,
+                  text: 'Your Full Work Address Here',
+                ),
+              ],
             ),
           ),
           Positioned(
-            top: 0,
-            bottom: 0,
             right: 0,
+            bottom: 20,
             child: Container(
-              width: (SizeUtil(context).cardWidth / 3) - 5,
+              width: (SizeUtil(context).cardWidth / 3.7),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  IconAndText(
-                    icon: Icons.location_on,
-                    text: 'Your Full Work Address Here',
+                  Image.asset(
+                    ImageUtil.logo(id),
+                    width: 60,
+                    height: 60,
                   ),
-                  SizedBox(height: 6),
-                  IconAndText(
-                    icon: Icons.phone,
-                    text: 'Your Phone Number Here',
+                  Text(
+                    cardInfo.brandName,
+                    style: titleStyle,
                   ),
-                  SizedBox(height: 6),
-                  IconAndText(
-                    icon: Icons.email,
-                    text: 'Your Email Address Here',
-                  ),
-                  SizedBox(height: 6),
-                  IconAndText(
-                    icon: Icons.link,
-                    text: 'Your Full Work Address Here',
+                  SizedBox(height: 6.0),
+                  Text(
+                    cardInfo.tagline,
+                    style: subTitleStyle,
                   ),
                 ],
               ),
@@ -166,7 +178,7 @@ class IconAndText extends StatelessWidget {
       children: [
         Icon(
           icon,
-          color: Colors.white,
+          color: primary,
           size: 8,
         ),
         SizedBox(width: 4.0),
@@ -179,13 +191,13 @@ class IconAndText extends StatelessWidget {
   }
 }
 
-TextStyle get list => globalStyle.copyWith(
-      fontSize: 6,
-    );
+Color primary = Color(0xFFDD2C2C);
+
+TextStyle get list => globalStyle.copyWith(fontSize: 6, color: Colors.white);
 
 TextStyle get globalStyle => TextStyle(
       fontFamily: 'Lato',
-      color: Colors.white,
+      color: Color(0xFF120E1A),
     );
 
 TextStyle get titleStyle => globalStyle.copyWith(
