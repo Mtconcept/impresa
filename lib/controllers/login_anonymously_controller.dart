@@ -9,11 +9,13 @@ import '../services/auth_service/auth_service.dart';
 import '../views/screens/home_screen.dart';
 
 class LoginAnonymouslyController extends Notifier with ValidationMixin {
-  TapGestureRecognizer loginAnonymously;
+  TapGestureRecognizer _loginAnonymously;
+
+  TapGestureRecognizer get loginAnonymously => _loginAnonymously;
 
   @override
   void onInit() {
-    loginAnonymously = TapGestureRecognizer()..onTap = loginAnon;
+    _loginAnonymously = TapGestureRecognizer()..onTap = loginAnon;
     super.onInit();
   }
 

@@ -6,12 +6,14 @@ import '../services/auth_service/auth_service.dart';
 import '../views/screens/login_screen.dart';
 
 class HomeController extends GetxController {
-  CardView defaultView = CardView.front;
+  CardView _defaultView = CardView.front;
+
+  CardView get defaultView => _defaultView;
 
   void toggleView() {
-    defaultView == CardView.front
-        ? defaultView = CardView.back
-        : defaultView = CardView.front;
+    _defaultView == CardView.front
+        ? _defaultView = CardView.back
+        : _defaultView = CardView.front;
     update();
   }
 

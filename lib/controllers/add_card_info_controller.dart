@@ -1,31 +1,68 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 
 import '../core/utils/failure.dart';
 import '../core/utils/notifier.dart';
 import '../core/utils/validation_mixin.dart';
 
 class AddCardInfoController extends Notifier with ValidationMixin {
-  final brandNameFocusNode = FocusNode();
-  final phoneNumberFocusNode = FocusNode();
-  final brandAddressFocusNode = FocusNode();
-  final businessTaglineFocusNode = FocusNode();
+  final _brandNameFocusNode = FocusNode();
+  final _phoneNumberFocusNode = FocusNode();
+  final _brandAddressFocusNode = FocusNode();
+  final _businessTaglineFocusNode = FocusNode();
 
-  final fullNameController = TextEditingController();
-  final brandNameController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final brandAddressController = TextEditingController();
-  final businessTaglineController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _brandNameController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _brandAddressController = TextEditingController();
+  final _businessTaglineController = TextEditingController();
 
-  final formKey = GlobalKey<FormState>();
+  final _formKey = GlobalKey<FormState>();
+  File _image;
+
+  FocusNode get brandNameFocusNode => _brandNameFocusNode;
+  FocusNode get phoneNumberFocusNode => _phoneNumberFocusNode;
+  FocusNode get brandAddressFocusNode => _brandAddressFocusNode;
+  FocusNode get businessTaglineFocusNode => _businessTaglineFocusNode;
+
+  TextEditingController get fullNameController => _fullNameController;
+  TextEditingController get brandNameController => _brandNameController;
+  TextEditingController get phoneNumberController => _phoneNumberController;
+  TextEditingController get brandAddressController => _brandAddressController;
+  TextEditingController get businessTaglineController =>
+      _businessTaglineController;
+
+  GlobalKey<FormState> get formKey => _formKey;
+  File get image => _image;
+
+  Future<void> getImage() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      _image = File(pickedFile.path);
+    } else {
+      Get.snackbar(
+        'Error',
+        'No Image was picked',
+        colorText: Get.theme.colorScheme.onError,
+        backgroundColor: Colors.orange,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+    update();
+  }
 
   void saveCard() async {
-    if (formKey.currentState.validate()) {
+    Get.focusScope.unfocus();
+    if (_formKey.currentState.validate()) {
       setState(NotifierState.isLoading);
 
-      // I will Save Card Here
-
-      try {} on Failure catch (f) {
+      try {
+        await Future.delayed(Duration(seconds: 5));
+      } on Failure catch (f) {
         setState(NotifierState.isIdle);
         Get.snackbar(
           'Error',

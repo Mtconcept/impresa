@@ -12,22 +12,35 @@ import '../views/screens/home_screen.dart';
 import '../views/screens/login_screen.dart';
 
 class RegisterController extends Notifier with ValidationMixin {
-  final emailFocusNode = FocusNode();
-  final phoneFocusNode = FocusNode();
-  final passwordFocusNode = FocusNode();
+  final _emailFocusNode = FocusNode();
+  final _phoneFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
-  final fullNameController = TextEditingController();
-  final emailAddressController = TextEditingController();
-  final phoneNumberController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _emailAddressController = TextEditingController();
+  final _phoneNumberController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  bool showPasswordField = true;
-  final formKey = GlobalKey<FormState>();
-  TapGestureRecognizer login;
+  TapGestureRecognizer _login;
+  final _formKey = GlobalKey<FormState>();
+  bool _showPasswordField = true;
+
+  FocusNode get emailFocusNode => _emailFocusNode;
+  FocusNode get phoneFocusNode => _phoneFocusNode;
+  FocusNode get passwordFocusNode => _passwordFocusNode;
+
+  TextEditingController get fullNameController => _fullNameController;
+  TextEditingController get emailAddressController => _emailAddressController;
+  TextEditingController get phoneNumberController => _phoneNumberController;
+  TextEditingController get passwordController => _passwordController;
+
+  TapGestureRecognizer get login => _login;
+  GlobalKey<FormState> get formKey => _formKey;
+  bool get showPasswordField => _showPasswordField;
 
   @override
   void onInit() {
-    login = TapGestureRecognizer()
+    _login = TapGestureRecognizer()
       ..onTap = () {
         Get.off(LoginScreen());
       };
@@ -35,15 +48,17 @@ class RegisterController extends Notifier with ValidationMixin {
   }
 
   void registerUser() async {
-    if (formKey.currentState.validate()) {
+    Get.focusScope.unfocus();
+
+    if (_formKey.currentState.validate()) {
       setState(NotifierState.isLoading);
 
       try {
         RegisterParams params = RegisterParams(
-          emailAddress: emailAddressController.text.trim(),
-          password: passwordController.text,
-          fullName: fullNameController.text.trim(),
-          phoneNumber: phoneNumberController.text,
+          emailAddress: _emailAddressController.text.trim(),
+          password: _passwordController.text,
+          fullName: _fullNameController.text.trim(),
+          phoneNumber: _phoneNumberController.text,
         );
 
         AppUser user = await Get.find<AuthService>().register(params);
@@ -66,19 +81,19 @@ class RegisterController extends Notifier with ValidationMixin {
   }
 
   void focusToEmail(String value) {
-    emailFocusNode.requestFocus();
+    _emailFocusNode.requestFocus();
   }
 
   void focusToPhone(String value) {
-    phoneFocusNode.requestFocus();
+    _phoneFocusNode.requestFocus();
   }
 
   void focusToPassword(String value) {
-    passwordFocusNode.requestFocus();
+    _passwordFocusNode.requestFocus();
   }
 
   void togglePasswordFieldVisibility() {
-    showPasswordField = !showPasswordField;
+    _showPasswordField = !_showPasswordField;
     update();
   }
 }

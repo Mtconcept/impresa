@@ -103,6 +103,9 @@ class AppTheme {
   static InputDecorationTheme _inputDecorationTheme(TextTheme textTheme) {
     return InputDecorationTheme(
       hintStyle: textTheme.subtitle2,
+      errorStyle: textTheme.subtitle2.copyWith(
+        color: _errorColor,
+      ),
     );
   }
 

@@ -90,11 +90,11 @@ class Card0 extends BusinessCard {
                   children: [
                     RichText(
                       text: TextSpan(
-                        text: 'Your',
+                        text: cardInfo.fullName.split(" ")[0],
                         style: titleStyle.copyWith(color: Colors.white),
                         children: <TextSpan>[
                           TextSpan(
-                            text: ' Name',
+                            text: " ${cardInfo.fullName.split(" ")[1]}",
                             style: titleStyle.copyWith(color: primary),
                           ),
                         ],
@@ -102,7 +102,7 @@ class Card0 extends BusinessCard {
                     ),
                     SizedBox(height: 6),
                     Text(
-                      'Your post here',
+                      cardInfo.jobPosition,
                       style: subTitleStyle.copyWith(color: Colors.white),
                     ),
                   ],
@@ -110,22 +110,22 @@ class Card0 extends BusinessCard {
                 SizedBox(height: 18),
                 IconAndText(
                   icon: Icons.location_on,
-                  text: 'Your Full Work Address Here',
+                  text: cardInfo.address,
                 ),
                 SizedBox(height: 6),
                 IconAndText(
                   icon: Icons.phone,
-                  text: 'Your Phone Number Here',
+                  text: cardInfo.phoneNumber,
                 ),
                 SizedBox(height: 6),
                 IconAndText(
                   icon: Icons.email,
-                  text: 'Your Email Address Here',
+                  text: cardInfo.emailAddress,
                 ),
                 SizedBox(height: 6),
                 IconAndText(
                   icon: Icons.link,
-                  text: 'Your Full Work Address Here',
+                  text: cardInfo.socialOrWebLink,
                 ),
               ],
             ),
@@ -193,11 +193,14 @@ class IconAndText extends StatelessWidget {
 
 Color primary = Color(0xFFDD2C2C);
 
-TextStyle get list => globalStyle.copyWith(fontSize: 6, color: Colors.white);
-
 TextStyle get globalStyle => TextStyle(
       fontFamily: 'Lato',
       color: Color(0xFF120E1A),
+    );
+
+TextStyle get list => globalStyle.copyWith(
+      fontSize: 6,
+      color: Colors.white,
     );
 
 TextStyle get titleStyle => globalStyle.copyWith(
