@@ -12,18 +12,27 @@ import '../views/screens/home_screen.dart';
 import '../views/screens/register_screen.dart';
 
 class LoginController extends Notifier with ValidationMixin {
-  final passwordFocusNode = FocusNode();
+  final _passwordFocusNode = FocusNode();
 
-  final emailAddressController = TextEditingController();
-  final passwordController = TextEditingController();
+  final _emailAddressController = TextEditingController();
+  final _passwordController = TextEditingController();
 
-  bool showPasswordField = true;
-  final formKey = GlobalKey<FormState>();
-  TapGestureRecognizer register;
+  bool _showPasswordField = true;
+  final _formKey = GlobalKey<FormState>();
+  TapGestureRecognizer _register;
+
+  FocusNode get passwordFocusNode => _passwordFocusNode;
+
+  TextEditingController get emailAddressController => _emailAddressController;
+  TextEditingController get passwordController => _passwordController;
+
+  TapGestureRecognizer get register => _register;
+  GlobalKey<FormState> get formKey => _formKey;
+  bool get showPasswordField => _showPasswordField;
 
   @override
   void onInit() {
-    register = TapGestureRecognizer()
+    _register = TapGestureRecognizer()
       ..onTap = () {
         Get.off(RegisterScreen());
       };
@@ -31,13 +40,15 @@ class LoginController extends Notifier with ValidationMixin {
   }
 
   void loginUser() async {
-    if (formKey.currentState.validate()) {
+    FocusNode().requestFocus();
+
+    if (_formKey.currentState.validate()) {
       setState(NotifierState.isLoading);
 
       try {
         LoginParams params = LoginParams(
-          emailAddress: emailAddressController.text.trim(),
-          password: passwordController.text,
+          emailAddress: _emailAddressController.text.trim(),
+          password: _passwordController.text,
         );
 
         AppUser user = await Get.find<AuthService>().login(params);
@@ -59,11 +70,11 @@ class LoginController extends Notifier with ValidationMixin {
   }
 
   void focusToPassword(String value) {
-    passwordFocusNode.requestFocus();
+    _passwordFocusNode.requestFocus();
   }
 
   void togglePasswordFieldVisibility() {
-    showPasswordField = !showPasswordField;
+    _showPasswordField = !_showPasswordField;
     update();
   }
 }
