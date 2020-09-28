@@ -3,7 +3,9 @@ import 'package:get/get.dart';
 
 import '../../controllers/add_card_info_controller.dart';
 import '../../core/utils/notifier.dart';
+import '../widgets/dashed_border_container.dart';
 import '../widgets/form_header.dart';
+import '../widgets/loading_screen.dart';
 import '../widgets/white_safearea.dart';
 
 class AddCardInfoScreen extends StatelessWidget {
@@ -17,17 +19,20 @@ class AddCardInfoScreen extends StatelessWidget {
         body: SafeArea(
           child: GetBuilder<AddCardInfoController>(
             init: AddCardInfoController(),
-            builder: (controller) => Container(
-              padding: EdgeInsets.symmetric(horizontal: 32.0),
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    SizedBox(height: 60),
-                    formHeader,
-                    SizedBox(height: 20),
-                    formBody(controller),
-                    SizedBox(height: 40),
-                  ],
+            builder: (controller) => LoadingScreen(
+              isLoading: controller.state == NotifierState.isLoading,
+              child: Container(
+                padding: EdgeInsets.symmetric(horizontal: 32.0),
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [
+                      SizedBox(height: 60),
+                      formHeader,
+                      SizedBox(height: 20),
+                      formBody(context, controller),
+                      SizedBox(height: 40),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -44,7 +49,8 @@ class AddCardInfoScreen extends StatelessWidget {
         ),
       );
 
-  Widget formBody(AddCardInfoController controller) => Form(
+  Widget formBody(BuildContext context, AddCardInfoController controller) =>
+      Form(
         key: controller.formKey,
         child: Column(
           children: [
@@ -101,7 +107,9 @@ class AddCardInfoScreen extends StatelessWidget {
                 hintText: 'Business Tagline',
               ),
             ),
-            SizedBox(height: 60),
+            SizedBox(height: 20),
+            uploadImage(context, controller),
+            SizedBox(height: 40),
             RaisedButton(
               child: controller.state == NotifierState.isIdle
                   ? Text('Save Card')
@@ -112,5 +120,57 @@ class AddCardInfoScreen extends StatelessWidget {
             ),
           ],
         ),
+      );
+
+  Row uploadImage(BuildContext context, AddCardInfoController controller) =>
+      Row(
+        children: [
+          controller.image == null
+              ? GestureDetector(
+                  onTap: controller.getImage,
+                  child: DashedBorderContainer(
+                    child: Icon(
+                      Icons.camera_alt,
+                      color: Colors.grey,
+                    ),
+                  ),
+                )
+              : GestureDetector(
+                  onTap: controller.getImage,
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16.0),
+                    ),
+                    child: Image.file(
+                      controller.image,
+                      width: 80.0,
+                      height: 80.0,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+          SizedBox(width: 36.0),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                'Upload Photo',
+                style: Theme.of(context)
+                    .textTheme
+                    .button
+                    .copyWith(color: Theme.of(context).colorScheme.onSecondary),
+              ),
+              SizedBox(height: 6.0),
+              Text(
+                'Maximum Logo Size\n500×750dpi',
+                style: TextStyle(
+                  fontSize: 10.0,
+                  height: 1.15,
+                  color: Theme.of(context).colorScheme.onSecondary,
+                ),
+              ),
+            ],
+          )
+        ],
       );
 }

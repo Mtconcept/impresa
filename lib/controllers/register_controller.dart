@@ -48,7 +48,7 @@ class RegisterController extends Notifier with ValidationMixin {
   }
 
   void registerUser() async {
-    FocusNode().requestFocus();
+    Get.focusScope.unfocus();
 
     if (_formKey.currentState.validate()) {
       setState(NotifierState.isLoading);

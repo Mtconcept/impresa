@@ -40,7 +40,7 @@ class LoginController extends Notifier with ValidationMixin {
   }
 
   void loginUser() async {
-    FocusNode().requestFocus();
+    Get.focusScope.unfocus();
 
     if (_formKey.currentState.validate()) {
       setState(NotifierState.isLoading);

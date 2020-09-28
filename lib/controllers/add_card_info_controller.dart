@@ -39,7 +39,8 @@ class AddCardInfoController extends Notifier with ValidationMixin {
   File get image => _image;
 
   Future<void> getImage() async {
-    final pickedFile = await ImagePicker().getImage(source: ImageSource.camera);
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
     if (pickedFile != null) {
       _image = File(pickedFile.path);
     } else {
@@ -51,16 +52,17 @@ class AddCardInfoController extends Notifier with ValidationMixin {
         snackPosition: SnackPosition.BOTTOM,
       );
     }
+    update();
   }
 
   void saveCard() async {
-    FocusNode().requestFocus();
+    Get.focusScope.unfocus();
     if (_formKey.currentState.validate()) {
       setState(NotifierState.isLoading);
 
-      // I will Save Card Here
-
-      try {} on Failure catch (f) {
+      try {
+        await Future.delayed(Duration(seconds: 5));
+      } on Failure catch (f) {
         setState(NotifierState.isIdle);
         Get.snackbar(
           'Error',
