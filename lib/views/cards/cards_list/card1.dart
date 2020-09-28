@@ -100,12 +100,12 @@ class Card1 extends BusinessCard {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Your Name',
+                    cardInfo.fullName,
                     style: titleStyle,
                   ),
                   SizedBox(height: 8.0),
                   Text(
-                    'Your post here',
+                    cardInfo.jobPosition,
                     style: subTitleStyle,
                   ),
                 ],
@@ -123,22 +123,22 @@ class Card1 extends BusinessCard {
                 children: [
                   IconAndText(
                     icon: Icons.location_on,
-                    text: 'Your Full Work Address Here',
+                    text: cardInfo.address,
                   ),
                   SizedBox(height: 6),
                   IconAndText(
                     icon: Icons.phone,
-                    text: 'Your Phone Number Here',
+                    text: cardInfo.phoneNumber,
                   ),
                   SizedBox(height: 6),
                   IconAndText(
                     icon: Icons.email,
-                    text: 'Your Email Address Here',
+                    text: cardInfo.emailAddress,
                   ),
                   SizedBox(height: 6),
                   IconAndText(
                     icon: Icons.link,
-                    text: 'Your Full Work Address Here',
+                    text: cardInfo.socialOrWebLink,
                   ),
                 ],
               ),
