@@ -1,10 +1,28 @@
+import 'dart:io';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../models/app_user.dart';
+import '../../models/card_info.dart';
 import 'database_service.dart';
 
 class FirebaseFirestoreService implements DatabaseService {
   final userCollection = FirebaseFirestore.instance.collection('users');
+  final storageReference =
+      FirebaseStorage.instance.ref().child('${DateTime.now()}-businesslogo');
+
+  Future<String> _uploadLogo(File file) async {
+    StorageUploadTask uploadTask = storageReference.putFile(file);
+    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+    String url;
+
+    if (snapshot != null) {
+      url = await storageReference.getDownloadURL();
+    }
+
+    return url;
+  }
 
   @override
   Future<AppUser> getUserWithId(String userId) async {
@@ -20,5 +38,27 @@ class FirebaseFirestoreService implements DatabaseService {
       'fullName': fullName,
       'phoneNumber': phoneNumber,
     });
+  }
+
+  @override
+  Future<CardInfo> addCardInfo(String userId,
+      {File logoImage, CardInfo cardInfo}) async {
+    String logoUrl = await _uploadLogo(logoImage);
+
+    DocumentReference reference =
+        await userCollection.doc(userId).collection("cards").add({
+      'brandName': cardInfo.brandName,
+      'fullName': cardInfo.fullName,
+      'address': cardInfo.address,
+      'emailAddress': cardInfo.emailAddress,
+      'jobPosition': cardInfo.jobPosition,
+      'logoUrl': logoUrl,
+      'phoneNumber': cardInfo.phoneNumber,
+      'socialOrWebLink': cardInfo.socialOrWebLink,
+      'tagline': cardInfo.tagline,
+    });
+    DocumentSnapshot snapshot = await reference.get();
+
+    return CardInfo.fromDocumentSnapshot(snapshot);
   }
 }

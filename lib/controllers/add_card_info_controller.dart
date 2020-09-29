@@ -1,8 +1,13 @@
 import 'dart:io';
 
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:impresa/models/app_user.dart';
+import 'package:impresa/models/card_info.dart';
+import 'package:impresa/services/auth_service/auth_service.dart';
+import 'package:impresa/services/database/database_service.dart';
 
 import '../core/utils/failure.dart';
 import '../core/utils/notifier.dart';
@@ -57,23 +62,40 @@ class AddCardInfoController extends Notifier with ValidationMixin {
 
   void saveCard() async {
     Get.focusScope.unfocus();
-    if (_formKey.currentState.validate()) {
-      setState(NotifierState.isLoading);
 
-      try {
-        await Future.delayed(Duration(seconds: 5));
-      } on Failure catch (f) {
-        setState(NotifierState.isIdle);
-        Get.snackbar(
-          'Error',
-          f.message,
-          colorText: Get.theme.colorScheme.onError,
-          backgroundColor: Get.theme.errorColor,
-          snackPosition: SnackPosition.BOTTOM,
-        );
-      }
-      setState(NotifierState.isIdle);
+    if (_image == null) {
+      Get.snackbar(
+        'No Logo',
+        "Please upload your Business Logo",
+        colorText: Get.theme.colorScheme.onError,
+        backgroundColor: Get.theme.errorColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      return;
     }
+
+    //if (_formKey.currentState.validate()) {
+    setState(NotifierState.isLoading);
+
+    try {
+      AppUser user = Get.find<AuthService>().user;
+      CardInfo cardInfo = await Get.find<DatabaseService>()
+          .addCardInfo(user.id, logoImage: _image, cardInfo: CardInfo.app());
+
+      print(cardInfo.fullName);
+      print(cardInfo.logoUrl);
+    } on Failure catch (f) {
+      setState(NotifierState.isIdle);
+      Get.snackbar(
+        'Error',
+        f.message,
+        colorText: Get.theme.colorScheme.onError,
+        backgroundColor: Get.theme.errorColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+    setState(NotifierState.isIdle);
+    //}
   }
 
   void focusToBrandName(String value) {

@@ -1,6 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:meta/meta.dart';
 
 class CardInfo {
+  final String id;
   final String brandName;
   final String fullName;
   final String jobPosition;
@@ -12,6 +14,7 @@ class CardInfo {
   final String logoUrl;
 
   CardInfo({
+    this.id,
     @required this.brandName,
     @required this.fullName,
     @required this.jobPosition,
@@ -33,5 +36,18 @@ class CardInfo {
         phoneNumber: 'Your Phone Number Here',
         socialOrWebLink: 'Your Social or Web Link',
         tagline: 'Tagline here',
+      );
+
+  factory CardInfo.fromDocumentSnapshot(DocumentSnapshot snapshot) => CardInfo(
+        id: snapshot.id,
+        fullName: snapshot.data()['fullName'] ?? '',
+        emailAddress: snapshot.data()['emailAddress'] ?? '',
+        phoneNumber: snapshot.data()['phoneNumber'] ?? '',
+        brandName: snapshot.data()['brandName'] ?? '',
+        address: snapshot.data()['address'] ?? '',
+        jobPosition: snapshot.data()['jobPosition'] ?? '',
+        logoUrl: snapshot.data()['logoUrl'] ?? '',
+        socialOrWebLink: snapshot.data()['socialOrWebLink'] ?? '',
+        tagline: snapshot.data()['tagline'] ?? '',
       );
 }
