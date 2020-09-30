@@ -5,6 +5,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../models/app_user.dart';
 import '../../models/card_info.dart';
+import '../../models/card_params.dart';
 import 'database_service.dart';
 
 class FirebaseFirestoreService implements DatabaseService {
@@ -41,21 +42,20 @@ class FirebaseFirestoreService implements DatabaseService {
   }
 
   @override
-  Future<CardInfo> addCardInfo(String userId,
-      {File logoImage, CardInfo cardInfo}) async {
-    String logoUrl = await _uploadLogo(logoImage);
+  Future<CardInfo> addCardInfo(CardParams params) async {
+    String logoUrl = await _uploadLogo(params.logoImage);
 
     DocumentReference reference =
-        await userCollection.doc(userId).collection("cards").add({
-      'brandName': cardInfo.brandName,
-      'fullName': cardInfo.fullName,
-      'address': cardInfo.address,
-      'emailAddress': cardInfo.emailAddress,
-      'jobPosition': cardInfo.jobPosition,
+        await userCollection.doc(params.userId).collection("cards").add({
+      'brandName': params.brandName,
+      'fullName': params.fullName,
+      'address': params.address,
+      'emailAddress': params.emailAddress,
+      'jobPosition': params.jobPosition,
       'logoUrl': logoUrl,
-      'phoneNumber': cardInfo.phoneNumber,
-      'socialOrWebLink': cardInfo.socialOrWebLink,
-      'tagline': cardInfo.tagline,
+      'phoneNumber': params.phoneNumber,
+      'socialOrWebLink': params.socialOrWebLink,
+      'tagline': params.tagline,
     });
     DocumentSnapshot snapshot = await reference.get();
 

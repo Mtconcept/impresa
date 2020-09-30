@@ -1,5 +1,7 @@
 import 'dart:io';
 
+import 'package:impresa/models/card_params.dart';
+
 import '../../models/app_user.dart';
 import '../../models/card_info.dart';
 
@@ -9,6 +11,5 @@ abstract class DatabaseService {
   Future<void> createUserWithId(String userId,
       {String emailAddress, String fullName, String phoneNumber});
 
-  Future<CardInfo> addCardInfo(String userId,
-      {File logoImage, CardInfo cardInfo});
+  Future<CardInfo> addCardInfo(CardParams params);
 }

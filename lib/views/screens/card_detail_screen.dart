@@ -22,11 +22,10 @@ class CardDetailScreen extends StatelessWidget {
             init: CardDetailController(),
             builder: (controller) => Container(
               padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+              child: ListView(
                 children: [
                   navigateBack(context, controller),
-                  Spacer(),
+                  SizedBox(height: 50),
                   Center(
                     child: Text(
                       'Front View',
@@ -58,7 +57,7 @@ class CardDetailScreen extends StatelessWidget {
                     CardView.back,
                     CardInfo.app(),
                   )[id],
-                  Spacer(),
+                  SizedBox(height: 50),
                   RaisedButton(
                     child: Text('Customize Card'),
                     onPressed: () => controller.goToAddCardInfo(id),
