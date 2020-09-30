@@ -32,16 +32,23 @@ class AppTheme {
   );
 
   /// TextStyles Usage
+  /// Headline1 - Biggest Title i.e Choose a template
   /// Headline4 - Primary Title i.e Impresa
   /// Headline5 - Form Title i.e Form Title
   /// Subtitle1 - Primary Description i.e onboarding description
   /// Subtitle2 - Titles without real emphasis i.e Continue without login
   /// BodyText1 - Regular Texts i.e TextField hintText
   /// BodyText2 - Small Description i.e Form Title Description
+  /// Caption - Navigation Icon Text i.e Back
   /// Button - Button Text
 
   static TextTheme _textTheme(ColorScheme colorScheme) {
     return TextTheme(
+      headline1: TextStyle(
+        fontSize: 32,
+        fontWeight: FontWeight.bold,
+        color: colorScheme.onBackground,
+      ),
       headline4: TextStyle(
         fontSize: 24,
         fontWeight: FontWeight.bold,
@@ -68,6 +75,11 @@ class AppTheme {
         fontSize: 14,
         color: colorScheme.onSurface,
       ),
+      caption: TextStyle(
+        fontWeight: FontWeight.w500,
+        fontSize: 18.0,
+        color: colorScheme.onPrimary,
+      ),
       button: TextStyle(
         fontSize: 16,
         color: colorScheme.onPrimary,
@@ -91,6 +103,9 @@ class AppTheme {
   static InputDecorationTheme _inputDecorationTheme(TextTheme textTheme) {
     return InputDecorationTheme(
       hintStyle: textTheme.subtitle2,
+      errorStyle: textTheme.subtitle2.copyWith(
+        color: _errorColor,
+      ),
     );
   }
 
