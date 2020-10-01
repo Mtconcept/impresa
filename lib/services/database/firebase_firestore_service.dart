@@ -5,14 +5,32 @@ import 'package:firebase_storage/firebase_storage.dart';
 
 import '../../models/app_user.dart';
 import '../../models/card_info.dart';
+import '../../models/card_params.dart';
 import 'database_service.dart';
 
 class FirebaseFirestoreService implements DatabaseService {
   final userCollection = FirebaseFirestore.instance.collection('users');
-  final storageReference =
-      FirebaseStorage.instance.ref().child('${DateTime.now()}-businesslogo');
 
-  Future<String> _uploadLogo(File file) async {
+  Future<String> _uploadLogo(File file, String brandName) async {
+    final storageReference =
+        FirebaseStorage.instance.ref().child('${DateTime.now()}-$brandName');
+
+    StorageUploadTask uploadTask = storageReference.putFile(file);
+    StorageTaskSnapshot snapshot = await uploadTask.onComplete;
+    String url;
+
+    if (snapshot != null) {
+      url = await storageReference.getDownloadURL();
+    }
+
+    return url;
+  }
+
+  @override
+  Future<String> uploadLogoForAnonymousUser(File file) async {
+    final storageReference =
+        FirebaseStorage.instance.ref().child('${DateTime.now()}-anon');
+
     StorageUploadTask uploadTask = storageReference.putFile(file);
     StorageTaskSnapshot snapshot = await uploadTask.onComplete;
     String url;
@@ -41,21 +59,20 @@ class FirebaseFirestoreService implements DatabaseService {
   }
 
   @override
-  Future<CardInfo> addCardInfo(String userId,
-      {File logoImage, CardInfo cardInfo}) async {
-    String logoUrl = await _uploadLogo(logoImage);
+  Future<CardInfo> addCardInfo(CardParams params) async {
+    String logoUrl = await _uploadLogo(params.logoImage, params.brandName);
 
     DocumentReference reference =
-        await userCollection.doc(userId).collection("cards").add({
-      'brandName': cardInfo.brandName,
-      'fullName': cardInfo.fullName,
-      'address': cardInfo.address,
-      'emailAddress': cardInfo.emailAddress,
-      'jobPosition': cardInfo.jobPosition,
+        await userCollection.doc(params.userId).collection("cards").add({
+      'brandName': params.brandName,
+      'fullName': params.fullName,
+      'address': params.address,
+      'emailAddress': params.emailAddress,
+      'jobPosition': params.jobPosition,
       'logoUrl': logoUrl,
-      'phoneNumber': cardInfo.phoneNumber,
-      'socialOrWebLink': cardInfo.socialOrWebLink,
-      'tagline': cardInfo.tagline,
+      'phoneNumber': params.phoneNumber,
+      'socialOrWebLink': params.socialOrWebLink,
+      'tagline': params.tagline,
     });
     DocumentSnapshot snapshot = await reference.get();
 

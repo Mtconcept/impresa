@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:impresa/core/utils/card_view.dart';
-import 'package:impresa/models/card_info.dart';
 
 import '../../controllers/card_detail_controller.dart';
+import '../../core/utils/card_view.dart';
+import '../../models/card_info.dart';
 import '../cards/business_cards_list.dart';
 import '../widgets/transparent_status_bar.dart';
 
-class CardDetailScreen extends StatelessWidget {
+class CardPreviewScreen extends StatelessWidget {
   final int id;
-  const CardDetailScreen({this.id});
+  final CardInfo cardInfo;
+
+  const CardPreviewScreen({
+    @required this.id,
+    @required this.cardInfo,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +45,7 @@ class CardDetailScreen extends StatelessWidget {
                       tag: 'card$id',
                       child: cards(
                         CardView.front,
-                        CardInfo.app(),
+                        cardInfo,
                       )[id]),
                   SizedBox(height: 16),
                   Center(
@@ -53,17 +58,14 @@ class CardDetailScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  cards(
-                    CardView.back,
-                    CardInfo.app(),
-                  )[id],
+                  cards(CardView.back, cardInfo)[id],
                   SizedBox(height: 50),
-                  RaisedButton(
-                    child: Text('Customize Card'),
-                    onPressed: () => controller.goToAddCardInfo(id),
-                    color: Theme.of(context).colorScheme.onPrimary,
-                    textColor: Theme.of(context).primaryColor,
-                  )
+                  // RaisedButton(
+                  //   child: Text('Customize Card'),
+                  //   onPressed: () => controller.goToAddCardInfo(id),
+                  //   color: Theme.of(context).colorScheme.onPrimary,
+                  //   textColor: Theme.of(context).primaryColor,
+                  // )
                 ],
               ),
             ),
