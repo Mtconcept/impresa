@@ -6,6 +6,8 @@ import '../../models/app_user.dart';
 import '../../models/card_info.dart';
 
 abstract class DatabaseService {
+  Future<String> uploadLogoForAnonymousUser(File file);
+
   Future<AppUser> getUserWithId(String userId);
 
   Future<void> createUserWithId(String userId,

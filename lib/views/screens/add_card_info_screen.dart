@@ -28,7 +28,6 @@ class AddCardInfoScreen extends StatelessWidget {
                     navigateBack(context, controller),
                     SizedBox(height: 12),
                     formHeader,
-                    // SizedBox(height: 20),
                     formBody(context, controller),
                     SizedBox(height: 40),
                   ],
@@ -146,7 +145,7 @@ class AddCardInfoScreen extends StatelessWidget {
               focusNode: controller.socialMediaHandleFocusNode,
               textInputAction: TextInputAction.done,
               validator: controller.validateNotEmpty,
-              onFieldSubmitted: (value) => controller.saveCard(),
+              onFieldSubmitted: (value) => controller.saveCard(id),
               decoration: InputDecoration(
                 hintText: 'Social Media Handle',
               ),
@@ -160,7 +159,7 @@ class AddCardInfoScreen extends StatelessWidget {
                   : CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
-              onPressed: controller.saveCard,
+              onPressed: () => controller.saveCard(id),
             ),
           ],
         ),

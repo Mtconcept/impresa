@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:impresa/views/screens/card_preview_screen.dart';
 
 import '../core/utils/failure.dart';
 import '../core/utils/notifier.dart';
@@ -77,19 +78,108 @@ class AddCardInfoController extends Notifier with ValidationMixin {
     update();
   }
 
-  void saveCard() {
-    AppUser user = Get.find<AuthService>().user;
-    if (user.isAnonymous) {
-      generateImage();
-    }
-    addCardInfo(user);
-  }
-
-  void generateImage() {}
-
-  void addCardInfo(AppUser user) async {
+  void saveCard(int id) {
     Get.focusScope.unfocus();
 
+    AppUser user = Get.find<AuthService>().user;
+    if (user.isAnonymous) {
+      addCardInfoForAnonymousUser(id);
+    }
+    addCardInfo(user, id);
+  }
+
+  void addCardInfoForAnonymousUser(int cardId) async {
+    if (_image != null) {
+      if (_formKey.currentState.validate()) {
+        setState(NotifierState.isLoading);
+
+        try {
+          String url = await Get.find<DatabaseService>()
+              .uploadLogoForAnonymousUser(_image);
+
+          CardInfo cardInfo = CardInfo(
+            fullName: fullNameController.text.trim(),
+            brandName: brandNameController.text.trim(),
+            address: brandAddressController.text.trim(),
+            emailAddress: emailAddressController.text.trim(),
+            jobPosition: postController.text.trim(),
+            logoUrl: url,
+            phoneNumber: phoneNumberController.text.trim(),
+            socialOrWebLink: socialMediaHandleController.text.trim(),
+            tagline: businessTaglineController.text.trim(),
+          );
+
+          Get.to(CardPreviewScreen(id: cardId, cardInfo: cardInfo));
+        } on Failure catch (f) {
+          setState(NotifierState.isIdle);
+          Get.snackbar(
+            'Error',
+            f.message,
+            colorText: Get.theme.colorScheme.onError,
+            backgroundColor: Get.theme.errorColor,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+        setState(NotifierState.isIdle);
+      }
+    } else {
+      Get.snackbar(
+        'No Logo',
+        "Please upload your Business Logo",
+        colorText: Get.theme.colorScheme.onError,
+        backgroundColor: Get.theme.errorColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  void addCardInfo(AppUser user, int cardId) async {
+    if (_image != null) {
+      if (_formKey.currentState.validate()) {
+        setState(NotifierState.isLoading);
+
+        try {
+          CardParams params = CardParams(
+            userId: user.id,
+            emailAddress: _emailAddressController.text.trim(),
+            fullName: _fullNameController.text.trim(),
+            phoneNumber: _phoneNumberController.text.trim(),
+            address: _brandAddressController.text.trim(),
+            brandName: _brandNameController.text.trim(),
+            jobPosition: _postController.text.trim(),
+            logoImage: _image,
+            socialOrWebLink: _socialMediaHandleController.text.trim(),
+            tagline: _businessTaglineController.text.trim(),
+          );
+
+          CardInfo cardInfo =
+              await Get.find<DatabaseService>().addCardInfo(params);
+
+          Get.to(CardPreviewScreen(id: cardId, cardInfo: cardInfo));
+        } on Failure catch (f) {
+          setState(NotifierState.isIdle);
+          Get.snackbar(
+            'Error',
+            f.message,
+            colorText: Get.theme.colorScheme.onError,
+            backgroundColor: Get.theme.errorColor,
+            snackPosition: SnackPosition.BOTTOM,
+          );
+        }
+        setState(NotifierState.isIdle);
+      }
+    } else {
+      Get.snackbar(
+        'No Logo',
+        "Please upload your Business Logo",
+        colorText: Get.theme.colorScheme.onError,
+        backgroundColor: Get.theme.errorColor,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+    }
+  }
+
+  void validateImage() {
     if (_image == null) {
       Get.snackbar(
         'No Logo',
@@ -100,37 +190,6 @@ class AddCardInfoController extends Notifier with ValidationMixin {
       );
       return;
     }
-
-    //if (_formKey.currentState.validate()) {
-    setState(NotifierState.isLoading);
-
-    try {
-      CardParams params = CardParams(
-        userId: user.id,
-        emailAddress: _emailAddressController.text.trim(),
-        fullName: _fullNameController.text.trim(),
-        phoneNumber: _phoneNumberController.text.trim(),
-        address: _brandAddressController.text.trim(),
-        brandName: _brandNameController.text.trim(),
-        jobPosition: _postController.text.trim(),
-        logoImage: _image,
-        socialOrWebLink: _socialMediaHandleController.text.trim(),
-        tagline: _businessTaglineController.text.trim(),
-      );
-
-      CardInfo cardInfo = await Get.find<DatabaseService>().addCardInfo(params);
-    } on Failure catch (f) {
-      setState(NotifierState.isIdle);
-      Get.snackbar(
-        'Error',
-        f.message,
-        colorText: Get.theme.colorScheme.onError,
-        backgroundColor: Get.theme.errorColor,
-        snackPosition: SnackPosition.BOTTOM,
-      );
-    }
-    setState(NotifierState.isIdle);
-    //}
   }
 
   void focusToPost(String value) {

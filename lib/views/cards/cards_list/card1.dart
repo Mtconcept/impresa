@@ -45,11 +45,17 @@ class Card1 extends BusinessCard {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    ImageUtil.logo(id),
-                    width: 60,
-                    height: 60,
-                  ),
+                  cardInfo.logoUrl == ""
+                      ? Image.asset(
+                          ImageUtil.logo(id),
+                          width: 60,
+                          height: 60,
+                        )
+                      : Image.network(
+                          cardInfo.logoUrl,
+                          width: 60,
+                          height: 60,
+                        ),
                   Text(
                     cardInfo.brandName,
                     style: titleStyle,

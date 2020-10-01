@@ -29,11 +29,17 @@ class Card2 extends BusinessCard {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Image.asset(
-            ImageUtil.logo(id),
-            width: 40,
-            height: 40,
-          ),
+          cardInfo.logoUrl == ""
+              ? Image.asset(
+                  ImageUtil.logo(id),
+                  width: 40,
+                  height: 40,
+                )
+              : Image.network(
+                  cardInfo.logoUrl,
+                  width: 40,
+                  height: 40,
+                ),
           SizedBox(width: 10.0),
           Column(
             mainAxisSize: MainAxisSize.min,
@@ -65,11 +71,17 @@ class Card2 extends BusinessCard {
             Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Image.asset(
-                  ImageUtil.logo(id),
-                  width: 40,
-                  height: 40,
-                ),
+                cardInfo.logoUrl == ""
+                    ? Image.asset(
+                        ImageUtil.logo(id),
+                        width: 40,
+                        height: 40,
+                      )
+                    : Image.network(
+                        cardInfo.logoUrl,
+                        width: 40,
+                        height: 40,
+                      ),
                 SizedBox(height: 6.0),
                 Text(
                   cardInfo.brandName.toUpperCase(),
