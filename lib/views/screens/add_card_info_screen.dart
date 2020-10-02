@@ -143,9 +143,9 @@ class AddCardInfoScreen extends StatelessWidget {
             TextFormField(
               controller: controller.socialMediaHandleController,
               focusNode: controller.socialMediaHandleFocusNode,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               validator: controller.validateNotEmpty,
-              onFieldSubmitted: (value) => controller.saveCard(id),
+              onFieldSubmitted: (value) => controller.getImage,
               decoration: InputDecoration(
                 hintText: 'Social Media Handle',
               ),
