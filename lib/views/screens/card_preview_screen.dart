@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../controllers/card_detail_controller.dart';
+import '../../controllers/card_preview_controller.dart';
 import '../../core/utils/card_view.dart';
 import '../../models/card_info.dart';
 import '../cards/business_cards_list.dart';
 import '../widgets/transparent_status_bar.dart';
+import '../widgets/widget_to_image.dart';
 
 class CardPreviewScreen extends StatelessWidget {
   final int id;
@@ -23,8 +24,8 @@ class CardPreviewScreen extends StatelessWidget {
       child: Scaffold(
         backgroundColor: Theme.of(context).primaryColor,
         body: SafeArea(
-          child: GetBuilder<CardDetailController>(
-            init: CardDetailController(),
+          child: GetBuilder<CardPreviewController>(
+            init: CardPreviewController(),
             builder: (controller) => Container(
               padding: EdgeInsets.symmetric(horizontal: 40.0, vertical: 24.0),
               child: ListView(
@@ -42,11 +43,17 @@ class CardPreviewScreen extends StatelessWidget {
                   ),
                   SizedBox(height: 16),
                   Hero(
-                      tag: 'card$id',
-                      child: cards(
-                        CardView.front,
-                        cardInfo,
-                      )[id]),
+                    tag: 'card$id',
+                    child: WidgetToImage(
+                      builder: (key) {
+                        controller.frontKey = key;
+                        return cards(
+                          CardView.front,
+                          cardInfo,
+                        )[id];
+                      },
+                    ),
+                  ),
                   SizedBox(height: 16),
                   Center(
                     child: Text(
@@ -58,14 +65,34 @@ class CardPreviewScreen extends StatelessWidget {
                     ),
                   ),
                   SizedBox(height: 16),
-                  cards(CardView.back, cardInfo)[id],
+                  WidgetToImage(
+                    builder: (key) {
+                      controller.backKey = key;
+                      return cards(CardView.back, cardInfo)[id];
+                    },
+                  ),
                   SizedBox(height: 50),
-                  // RaisedButton(
-                  //   child: Text('Customize Card'),
-                  //   onPressed: () => controller.goToAddCardInfo(id),
-                  //   color: Theme.of(context).colorScheme.onPrimary,
-                  //   textColor: Theme.of(context).primaryColor,
-                  // )
+                  Row(
+                    children: [
+                      Expanded(
+                        child: RaisedButton(
+                          child: Text('Share'),
+                          onPressed: () => controller.shareCard(cardInfo),
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          textColor: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                      SizedBox(width: 16),
+                      Expanded(
+                        child: RaisedButton(
+                          child: Text('Download'),
+                          onPressed: () => controller.downloadCard(cardInfo),
+                          color: Theme.of(context).colorScheme.onPrimary,
+                          textColor: Theme.of(context).primaryColor,
+                        ),
+                      ),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -75,7 +102,7 @@ class CardPreviewScreen extends StatelessWidget {
     );
   }
 
-  Widget navigateBack(BuildContext context, CardDetailController controller) =>
+  Widget navigateBack(BuildContext context, CardPreviewController controller) =>
       InkWell(
         onTap: controller.goBack,
         child: Column(

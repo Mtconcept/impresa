@@ -94,7 +94,7 @@ class Card2 extends BusinessCard {
                 ),
               ],
             ),
-            SizedBox(width: 8.0),
+            SizedBox(width: 32.0),
             VerticalDivider(color: Colors.black54),
             Spacer(),
             Column(
