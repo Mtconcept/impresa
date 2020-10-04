@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:impresa/views/screens/card_preview_screen.dart';
 
 import '../core/utils/failure.dart';
 import '../core/utils/notifier.dart';
@@ -13,6 +12,7 @@ import '../models/card_info.dart';
 import '../models/card_params.dart';
 import '../services/auth_service/auth_service.dart';
 import '../services/database/database_service.dart';
+import '../views/screens/card_preview_screen.dart';
 
 class AddCardInfoController extends Notifier with ValidationMixin {
   final _postFocusNode = FocusNode();

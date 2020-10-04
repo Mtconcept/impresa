@@ -1,9 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 import 'dart:ui' as ui;
 
 import 'package:esys_flutter_share/esys_flutter_share.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:path_provider/path_provider.dart';
 
 class WidgetToImageUtil {
   static Future<Uint8List> capture(GlobalKey key) async {
@@ -29,7 +31,9 @@ class WidgetToImageUtil {
   }
 
   // Implement this
-  static Future<bool> saveCard(String cardName, List<Uint8List> cards) async {
-    return true;
+  static Future<File> saveCard(String cardName, Uint8List card) async {
+    final directory = await getExternalStorageDirectory();
+    final file = File('${directory.path}/$cardName.png');
+    return file.writeAsBytes(card);
   }
 }
