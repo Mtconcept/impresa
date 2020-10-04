@@ -1,10 +1,11 @@
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:impresa/models/card_info.dart';
 
 import '../core/utils/widget_to_image_util.dart';
+import '../models/card_info.dart';
 
 class CardPreviewController extends GetxController {
   GlobalKey frontKey;
@@ -27,17 +28,20 @@ class CardPreviewController extends GetxController {
     final backBytes = await WidgetToImageUtil.capture(backKey);
 
     List<Uint8List> cards = [frontBytes, backBytes];
+    List<File> cardFiles = [];
 
-    // Find Implementation in Widget To Image Utility
-    bool isSuccessful =
-        await WidgetToImageUtil.saveCard(cardInfo.brandName, cards);
+    for (int i = 0; i < cards.length; i++) {
+      File file = await WidgetToImageUtil.saveCard(
+          '${cardInfo.brandName}-i-${DateTime.now()}', cards[i]);
+      cardFiles.add(file);
+    }
 
-    if (isSuccessful) {
+    if (cardFiles.length == cards.length) {
       Get.snackbar(
         'Successful',
         'Cards saved successfully',
-        colorText: Get.theme.colorScheme.onPrimary,
-        backgroundColor: Get.theme.primaryColor,
+        colorText: Get.theme.primaryColor,
+        backgroundColor: Get.theme.colorScheme.onPrimary,
         snackPosition: SnackPosition.BOTTOM,
       );
     } else {
