@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
-import 'package:impresa/views/screens/add_card_info_screen.dart';
+
+import '../views/screens/add_card_info_screen.dart';
 
 class CardDetailController extends GetxController {
   void goBack() {

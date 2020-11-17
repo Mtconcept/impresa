@@ -45,11 +45,18 @@ class Card1 extends BusinessCard {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    ImageUtil.logo(id),
-                    width: 60,
-                    height: 60,
-                  ),
+                  cardInfo.logoUrl == ""
+                      ? Image.asset(
+                          ImageUtil.logo(id),
+                          width: 60,
+                          height: 60,
+                        )
+                      : Image.network(
+                          cardInfo.logoUrl,
+                          width: 60,
+                          height: 60,
+                        ),
+                  SizedBox(height: 6.0),
                   Text(
                     cardInfo.brandName,
                     style: titleStyle,
@@ -115,7 +122,7 @@ class Card1 extends BusinessCard {
           Positioned(
             top: 0,
             bottom: 0,
-            right: 0,
+            right: 10,
             child: Container(
               width: (SizeUtil(context).cardWidth / 3) - 5,
               child: Column(

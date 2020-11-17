@@ -22,17 +22,15 @@ class AddCardInfoScreen extends StatelessWidget {
             builder: (controller) => LoadingScreen(
               isLoading: controller.state == NotifierState.isLoading,
               child: Container(
-                padding: EdgeInsets.symmetric(horizontal: 32.0),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: [
-                      SizedBox(height: 60),
-                      formHeader,
-                      SizedBox(height: 20),
-                      formBody(context, controller),
-                      SizedBox(height: 40),
-                    ],
-                  ),
+                padding: EdgeInsets.symmetric(horizontal: 32.0, vertical: 24.0),
+                child: ListView(
+                  children: [
+                    navigateBack(context, controller),
+                    SizedBox(height: 12),
+                    formHeader,
+                    formBody(context, controller),
+                    SizedBox(height: 40),
+                  ],
                 ),
               ),
             ),
@@ -41,6 +39,19 @@ class AddCardInfoScreen extends StatelessWidget {
       ),
     );
   }
+
+  Widget navigateBack(BuildContext context, AddCardInfoController controller) =>
+      InkWell(
+        onTap: controller.goBack,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Icon(
+              Icons.arrow_back,
+            ),
+          ],
+        ),
+      );
 
   Widget get formHeader => Hero(
         tag: 'header',
@@ -58,9 +69,20 @@ class AddCardInfoScreen extends StatelessWidget {
               controller: controller.fullNameController,
               validator: controller.validateFullName,
               textInputAction: TextInputAction.next,
-              onFieldSubmitted: controller.focusToBrandName,
+              onFieldSubmitted: controller.focusToPost,
               decoration: InputDecoration(
                 hintText: 'Full Name',
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: controller.postController,
+              focusNode: controller.postFocusNode,
+              validator: controller.validateNotEmpty,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: controller.focusToBrandName,
+              decoration: InputDecoration(
+                hintText: 'Post',
               ),
             ),
             SizedBox(height: 20),
@@ -77,12 +99,11 @@ class AddCardInfoScreen extends StatelessWidget {
             SizedBox(height: 20),
             TextFormField(
               controller: controller.phoneNumberController,
-              validator: controller.validatePhoneNumber,
               focusNode: controller.phoneNumberFocusNode,
               textInputAction: TextInputAction.next,
               onFieldSubmitted: controller.focusToBrandAddress,
               decoration: InputDecoration(
-                hintText: 'Phone Number',
+                hintText: 'Brand Phone Number (Optional)',
               ),
             ),
             SizedBox(height: 20),
@@ -91,20 +112,42 @@ class AddCardInfoScreen extends StatelessWidget {
               validator: controller.validateNotEmpty,
               focusNode: controller.brandAddressFocusNode,
               textInputAction: TextInputAction.next,
-              onFieldSubmitted: controller.focusToBusinessTagline,
+              onFieldSubmitted: controller.focusToEmailAddress,
               decoration: InputDecoration(
                 hintText: 'Brand Address',
               ),
             ),
             SizedBox(height: 20),
             TextFormField(
+              controller: controller.emailAddressController,
+              validator: controller.validateEmail,
+              focusNode: controller.emailAddressFocusNode,
+              textInputAction: TextInputAction.next,
+              onFieldSubmitted: controller.focusToBusinessTagline,
+              decoration: InputDecoration(
+                hintText: 'Brand Email Address',
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
               controller: controller.businessTaglineController,
               focusNode: controller.businessTaglineFocusNode,
-              textInputAction: TextInputAction.done,
+              textInputAction: TextInputAction.next,
               validator: controller.validateNotEmpty,
-              onFieldSubmitted: (value) => controller.saveCard(),
+              onFieldSubmitted: controller.focusToSocialMediaHandle,
               decoration: InputDecoration(
                 hintText: 'Business Tagline',
+              ),
+            ),
+            SizedBox(height: 20),
+            TextFormField(
+              controller: controller.socialMediaHandleController,
+              focusNode: controller.socialMediaHandleFocusNode,
+              textInputAction: TextInputAction.next,
+              validator: controller.validateNotEmpty,
+              onFieldSubmitted: (value) => controller.getImage,
+              decoration: InputDecoration(
+                hintText: 'Social Media Handle',
               ),
             ),
             SizedBox(height: 20),
@@ -116,7 +159,7 @@ class AddCardInfoScreen extends StatelessWidget {
                   : CircularProgressIndicator(
                       valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
                     ),
-              onPressed: controller.saveCard,
+              onPressed: () => controller.saveCard(id),
             ),
           ],
         ),
